@@ -50,9 +50,9 @@ function Proyectos() {
 						const firstImg = p?.imagenes?.[0]?.url;
 						const imgSrc = assetUrl(firstImg);
 						return (
-											<Col key={p.id} md={6} lg={4}>
-												<Card as={Link} to={`/proyectos/${p.id}`} className="h-100 shadow-sm text-reset text-decoration-none">
-									{imgSrc && <Card.Img variant="top" src={imgSrc} alt={p.titulo} style={{ objectFit: 'cover', maxHeight: 180 }} />}
+							<Col key={p.id} md={6} lg={4}>
+								<Card as={Link} to={`/proyectos/${p.id}`} className="h-100 shadow-sm text-reset text-decoration-none">
+									{imgSrc && <Card.Img variant="top" src={imgSrc} alt={p.titulo} style={{ objectFit: 'contain', height: 180, backgroundColor: '#f8f9fa' }} />}
 									<Card.Body className="d-flex flex-column">
 										<div className="d-flex align-items-start justify-content-between mb-1">
 											<Card.Title className="mb-0">{p.titulo}</Card.Title>

@@ -133,7 +133,7 @@ import { listarProyectos } from "../services/ProyectosService";
                       variant="top"
                       src={imgSrc}
                       alt={p.titulo}
-                      style={{ objectFit: "cover", maxHeight: 180 }}
+                      style={{ objectFit: "contain", height: 180, backgroundColor: "#f8f9fa" }}
                     />
                   )}
                   <Card.Body className="d-flex flex-column">

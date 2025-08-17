@@ -80,7 +80,7 @@ function ProyectoDetalle() {
                       src={img.src}
                       alt={item.titulo}
                       className="d-block w-100"
-                      style={{ objectFit: 'cover', maxHeight: 420 }}
+                      style={{ objectFit: 'contain', height: 420, backgroundColor: '#f8f9fa' }}
                     />
                   </Carousel.Item>
                 ))}
