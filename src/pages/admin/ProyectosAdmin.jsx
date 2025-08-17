@@ -99,7 +99,7 @@ import { alertProyectoCreado } from "../../alerts";
               </RBCol>
               <RBCol md={12}>
                 <Form.Group className="mb-2">
-                  <Form.Label>Imágenes (hasta 5)</Form.Label>
+                  <Form.Label>Imágenes (hasta 10)</Form.Label>
                   <Form.Control
                     type="file"
                     multiple
@@ -108,7 +108,7 @@ import { alertProyectoCreado } from "../../alerts";
                       const incoming = Array.from(e.target.files || []);
                       setFiles((prev) => {
                         const merged = [...prev, ...incoming];
-                        return merged.slice(0, 5);
+                        return merged.slice(0, 10);
                       });
                       // Limpia el input para permitir volver a seleccionar los mismos archivos si se desea
                       e.target.value = "";
@@ -116,7 +116,7 @@ import { alertProyectoCreado } from "../../alerts";
                   />
                   {files?.length > 0 && (
                     <div className="mt-2">
-                      <small className="text-muted">Seleccionadas: {files.length}/5</small>
+                      <small className="text-muted">Seleccionadas: {files.length}/10</small>
                       <ul className="mt-1 mb-0">
                         {files.map((f, idx) => (
                           <li key={idx} className="d-flex align-items-center gap-2">

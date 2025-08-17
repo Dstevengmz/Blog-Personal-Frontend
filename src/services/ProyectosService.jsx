@@ -15,7 +15,7 @@ export async function crearProyectoConImagenes(campos = {}, imagenes = []) {
 	Object.entries(campos).forEach(([k, v]) => {
 		if (v !== undefined && v !== null) formData.append(k, v);
 	});
-	(imagenes || []).slice(0, 5).forEach((file) => formData.append("imagenes", file));
+	(imagenes || []).slice(0, 10).forEach((file) => formData.append("imagenes", file));
 	const { data } = await api.post("api/imagen", formData, {
 		headers: { "Content-Type": "multipart/form-data" },
 	});
