@@ -72,9 +72,8 @@ import { listarProyectos } from "../services/ProyectosService";
                   <div className="d-flex flex-wrap gap-2">
                     <Badge bg="success">Javascript</Badge>
                     <Badge bg="success">Python</Badge>
-                    <Badge bg="success">Django</Badge>
-                    <Badge bg="success">Node.js</Badge>
-                    <Badge bg="dark">Sequelize</Badge>
+                    <Badge bg="success">Java</Badge>
+                    <Badge bg="success">Dart</Badge>
                     <Badge bg="info" text="dark">
                       React
                     </Badge>
@@ -83,6 +82,9 @@ import { listarProyectos } from "../services/ProyectosService";
                     </Badge>
                     <Badge bg="info" text="dark">
                       Flask
+                    </Badge>
+                    <Badge bg="info" text="dark">
+                      Flutter
                     </Badge>
                   </div>
                 </Card.Body>

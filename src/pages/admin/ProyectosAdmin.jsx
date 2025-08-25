@@ -1,15 +1,36 @@
 import { useEffect, useState } from "react";
-import { Table, Button, Spinner, Form, Row as RBRow, Col as RBCol, Alert } from "react-bootstrap";
-import { crearProyecto, listarProyectos, crearProyectoConImagenes } from "../../services/ProyectosService";
-import { alertProyectoCreado } from "../../alerts";
+import {
+  Table,
+  Button,
+  Spinner,
+  Form,
+  Row as RBRow,
+  Col as RBCol,
+  Alert,
+} from "react-bootstrap";
+import {
+  crearProyecto,
+  listarProyectos,
+  crearProyectoConImagenes,
+  eliminarProyecto,
+} from "../../services/ProyectosService";
+import { alertProyectoCreado } from "../../assets/js";
+import { useNavigate } from "react-router-dom";
 
- function ProyectosAdmin() {
+import MensajesAlertas from "../../assets/js/mensajesAlertas";
+function ProyectosAdmin() {
+  const navigate = useNavigate();
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [creating, setCreating] = useState(false);
   const [createError, setCreateError] = useState("");
-  const [form, setForm] = useState({ titulo: "", descripcion: "", github: "", demoUrl: "" });
+  const [form, setForm] = useState({
+    titulo: "",
+    descripcion: "",
+    github: "",
+    demoUrl: "",
+  });
   const [files, setFiles] = useState([]);
 
   const fetchData = async () => {
@@ -29,7 +50,19 @@ import { alertProyectoCreado } from "../../alerts";
     fetchData();
   }, []);
 
-  // Evitar ocultar el botón cuando hay loading/error; mostramos feedback inline
+  const EliminarProyectoId = async (id) => {
+    const mensajesAlertas = new MensajesAlertas();
+    await mensajesAlertas.confirmarEliminacion(async () => {
+    try {
+      const result = await eliminarProyecto(id);
+      console.log(result); 
+      setRows((prevRows) => prevRows.filter((proyecto) => proyecto.id !== id));
+    } catch (error) {
+      console.error("Error al eliminar el proyecto:", error);
+      alert("Hubo un error al eliminar el proyecto. Intenta nuevamente.");
+    }
+  });
+  };
 
   return (
     <div>
@@ -40,61 +73,96 @@ import { alertProyectoCreado } from "../../alerts";
         </Button>
       </div>
       {loading && (
-        <div className="mb-3"><Spinner animation="border" size="sm" /> Cargando...</div>
+        <div className="mb-3">
+          <Spinner animation="border" size="sm" /> Cargando...
+        </div>
       )}
       {error && <Alert variant="danger">{error}</Alert>}
       {creating && (
         <div className="mb-3">
-          <Form onSubmit={async (e) => {
-            e.preventDefault();
-            setCreateError("");
-            try {
-              const userStr = localStorage.getItem("user");
-              const user = userStr ? JSON.parse(userStr) : null;
-              const campos = { ...form, idUsuario: user?.id };
-              if (files && files.length > 0) {
-                await crearProyectoConImagenes(campos, files);
-              } else {
-                await crearProyecto(campos);
+          <Form
+            onSubmit={async (e) => {
+              e.preventDefault();
+              setCreateError("");
+              try {
+                const userStr = localStorage.getItem("user");
+                const user = userStr ? JSON.parse(userStr) : null;
+                const campos = { ...form, idUsuario: user?.id };
+                if (files && files.length > 0) {
+                  await crearProyectoConImagenes(campos, files);
+                } else {
+                  await crearProyecto(campos);
+                }
+                alertProyectoCreado();
+                setForm({
+                  titulo: "",
+                  descripcion: "",
+                  github: "",
+                  demoUrl: "",
+                });
+                setFiles([]);
+                setCreating(false);
+                await fetchData();
+              } catch (err) {
+                const status = err?.response?.status;
+                setCreateError(
+                  err?.response?.data?.error ||
+                    (status === 401
+                      ? "No autorizado"
+                      : "No se pudo crear el proyecto")
+                );
               }
-              // Éxito
-              alertProyectoCreado();
-              setForm({ titulo: "", descripcion: "", github: "", demoUrl: "" });
-              setFiles([]);
-              setCreating(false);
-              await fetchData();
-            } catch (err) {
-              const status = err?.response?.status;
-              setCreateError(
-                err?.response?.data?.error ||
-                  (status === 401 ? "No autorizado" : "No se pudo crear el proyecto")
-              );
-            }
-          }}>
+            }}
+          >
             {createError && <Alert variant="danger">{createError}</Alert>}
             <RBRow className="g-2">
               <RBCol md={6}>
                 <Form.Group className="mb-2">
                   <Form.Label>Título</Form.Label>
-                  <Form.Control value={form.titulo} onChange={(e) => setForm({ ...form, titulo: e.target.value })} required />
+                  <Form.Control
+                    value={form.titulo}
+                    onChange={(e) =>
+                      setForm({ ...form, titulo: e.target.value })
+                    }
+                    required
+                  />
                 </Form.Group>
               </RBCol>
               <RBCol md={6}>
                 <Form.Group className="mb-2">
                   <Form.Label>GitHub</Form.Label>
-                  <Form.Control value={form.github} onChange={(e) => setForm({ ...form, github: e.target.value })} placeholder="https://github.com/..." />
+                  <Form.Control
+                    value={form.github}
+                    onChange={(e) =>
+                      setForm({ ...form, github: e.target.value })
+                    }
+                    placeholder="https://github.com/..."
+                  />
                 </Form.Group>
               </RBCol>
               <RBCol md={6}>
                 <Form.Group className="mb-2">
                   <Form.Label>Demo</Form.Label>
-                  <Form.Control value={form.demoUrl} onChange={(e) => setForm({ ...form, demoUrl: e.target.value })} placeholder="https://demo.com" />
+                  <Form.Control
+                    value={form.demoUrl}
+                    onChange={(e) =>
+                      setForm({ ...form, demoUrl: e.target.value })
+                    }
+                    placeholder="https://demo.com"
+                  />
                 </Form.Group>
               </RBCol>
               <RBCol md={12}>
                 <Form.Group className="mb-2">
                   <Form.Label>Descripción</Form.Label>
-                  <Form.Control as="textarea" rows={3} value={form.descripcion} onChange={(e) => setForm({ ...form, descripcion: e.target.value })} />
+                  <Form.Control
+                    as="textarea"
+                    rows={3}
+                    value={form.descripcion}
+                    onChange={(e) =>
+                      setForm({ ...form, descripcion: e.target.value })
+                    }
+                  />
                 </Form.Group>
               </RBCol>
               <RBCol md={12}>
@@ -110,21 +178,34 @@ import { alertProyectoCreado } from "../../alerts";
                         const merged = [...prev, ...incoming];
                         return merged.slice(0, 10);
                       });
-                      // Limpia el input para permitir volver a seleccionar los mismos archivos si se desea
                       e.target.value = "";
                     }}
                   />
                   {files?.length > 0 && (
                     <div className="mt-2">
-                      <small className="text-muted">Seleccionadas: {files.length}/10</small>
+                      <small className="text-muted">
+                        Seleccionadas: {files.length}/10
+                      </small>
                       <ul className="mt-1 mb-0">
                         {files.map((f, idx) => (
-                          <li key={idx} className="d-flex align-items-center gap-2">
-                            <span className="text-truncate" style={{ maxWidth: 260 }}>{f.name}</span>
+                          <li
+                            key={idx}
+                            className="d-flex align-items-center gap-2"
+                          >
+                            <span
+                              className="text-truncate"
+                              style={{ maxWidth: 260 }}
+                            >
+                              {f.name}
+                            </span>
                             <Button
                               size="sm"
                               variant="outline-danger"
-                              onClick={() => setFiles((prev) => prev.filter((_, i) => i !== idx))}
+                              onClick={() =>
+                                setFiles((prev) =>
+                                  prev.filter((_, i) => i !== idx)
+                                )
+                              }
                             >
                               Quitar
                             </Button>
@@ -137,8 +218,16 @@ import { alertProyectoCreado } from "../../alerts";
               </RBCol>
             </RBRow>
             <div className="d-flex gap-2 mt-2">
-              <Button type="submit" variant="primary">Guardar</Button>
-              <Button type="button" variant="secondary" onClick={() => setCreating(false)}>Cancelar</Button>
+              <Button type="submit" variant="primary">
+                Guardar
+              </Button>
+              <Button
+                type="button"
+                variant="secondary"
+                onClick={() => setCreating(false)}
+              >
+                Cancelar
+              </Button>
             </div>
           </Form>
         </div>
@@ -156,7 +245,9 @@ import { alertProyectoCreado } from "../../alerts";
         <tbody>
           {rows.length === 0 ? (
             <tr>
-              <td colSpan={5} className="text-center text-muted">No hay proyectos</td>
+              <td colSpan={5} className="text-center text-muted">
+                No hay proyectos
+              </td>
             </tr>
           ) : (
             rows.map((p) => (
@@ -166,8 +257,21 @@ import { alertProyectoCreado } from "../../alerts";
                 <td>{p.github}</td>
                 <td>{p.demoUrl}</td>
                 <td>
-                  <Button size="sm" variant="outline-primary" className="me-2">Editar</Button>
-                  <Button size="sm" variant="outline-danger">Eliminar</Button>
+                  <Button
+                    size="sm"
+                    variant="outline-primary"
+                    className="me-2"
+                    onClick={() => navigate(`/admin/editarproyecto/${p.id}`)}
+                  >
+                    Editar
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline-danger"
+                    onClick={() => EliminarProyectoId(p.id)}
+                  >
+                    Eliminar
+                  </Button>
                 </td>
               </tr>
             ))

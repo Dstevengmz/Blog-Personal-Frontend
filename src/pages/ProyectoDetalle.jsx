@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { Container, Row, Col, Badge, Button, Carousel, Spinner, Alert, Card, Form } from "react-bootstrap";
 import { obtenerProyectoPorId } from "../services/ProyectosService";
 import { listarComentarios, crearComentario } from "../services/ComentariosService";
-import { confirmComentar, alertComentarioPublicado, alertError } from "../alerts";
+import { confirmComentar, alertComentarioPublicado, alertError } from "../assets/js";
 import { assetUrl } from "../lib/assetUrl";
 
 function ProyectoDetalle() {

@@ -13,6 +13,7 @@ import ProyectosAdmin from "./pages/admin/ProyectosAdmin";
 import ArticulosAdmin from "./pages/admin/ArticulosAdmin";
 import UsuariosAdmin from "./pages/admin/UsuariosAdmin";
 import Contacto from "./pages/Contacto";
+import EditarProyecto from "./pages/admin/EditarProyecto";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
+
           <Route path="/proyectos" element={<Proyectos />} />
           <Route path="/proyectos/:id" element={<ProyectoDetalle />} />
           <Route path="/articulos" element={<Articulos />} />
@@ -38,7 +40,18 @@ function App() {
             path="/admin/proyectos"
             element={
               <ProtectedRoute roles={["admin"]}>
+                {" "}
                 <ProyectosAdmin />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/editarproyecto/:id"
+            element={
+              <ProtectedRoute roles={["admin"]}>
+                {" "}
+                <EditarProyecto />
               </ProtectedRoute>
             }
           />

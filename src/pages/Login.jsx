@@ -13,7 +13,7 @@ import {
 } from "react-bootstrap";
 import { Eye, EyeSlash } from "react-bootstrap-icons";
 import { iniciarSesion } from "../services/Loginservice";
-import { alertLoginSuccess } from "../alerts";
+import { alertLoginSuccess } from "../assets/js";
 
 function Login() {
   const navigate = useNavigate();
@@ -44,19 +44,19 @@ function Login() {
     }
     try {
       setLoading(true);
-  const { token, user } = await iniciarSesion({ email, password });
+      const { token, user } = await iniciarSesion({ email, password });
       if (!token) throw new Error("Sin token en la respuesta");
-  localStorage.setItem("token", token);
-  localStorage.setItem("user", JSON.stringify(user));
-  // Notificación
-  alertLoginSuccess(user);
-  // Redirigir
-  navigate(user?.rol === "admin" ? "/admin" : "/");
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+      alertLoginSuccess(user);
+      navigate(user?.rol === "admin" ? "/admin" : "/");
     } catch (err) {
       const status = err?.response?.status;
       const msg =
         err?.response?.data?.error ||
-        (status === 401 || status === 400 ? "Credenciales inválidas" : err.message) ||
+        (status === 401 || status === 400
+          ? "Credenciales inválidas"
+          : err.message) ||
         "Error al iniciar sesión";
       setError(msg);
     } finally {
@@ -70,7 +70,15 @@ function Login() {
       className="d-flex justify-content-center align-items-center min-vh-100 bg-light"
     >
       <Row className="w-100 justify-content-center px-3">
-        <Col xs={12} sm={10} md={8} lg={6} xl={5} xxl={4} style={{ maxWidth: 560 }}>
+        <Col
+          xs={12}
+          sm={10}
+          md={8}
+          lg={6}
+          xl={5}
+          xxl={4}
+          style={{ maxWidth: 560 }}
+        >
           <Card className="shadow-lg border-0 rounded-4">
             <Card.Body className="p-5">
               <h2 className="text-center mb-4 fw-bold">🔐 Iniciar Sesión</h2>
@@ -127,8 +135,17 @@ function Login() {
 
                 {error && <Alert variant="danger">{error}</Alert>}
                 <div className="d-grid mb-3">
-                  <Button variant="primary" size="lg" type="submit" disabled={loading}>
-                    {loading ? <Spinner size="sm" animation="border" /> : "Entrar"}
+                  <Button
+                    variant="primary"
+                    size="lg"
+                    type="submit"
+                    disabled={loading}
+                  >
+                    {loading ? (
+                      <Spinner size="sm" animation="border" />
+                    ) : (
+                      "Entrar"
+                    )}
                   </Button>
                 </div>
 
@@ -138,7 +155,10 @@ function Login() {
                   </a>
                   <br />
                   <span className="text-muted">¿No tienes cuenta?</span>{" "}
-                  <a href="/registrar" className="fw-semibold text-primary text-decoration-none">
+                  <a
+                    href="/registrar"
+                    className="fw-semibold text-primary text-decoration-none"
+                  >
                     Regístrate
                   </a>
                 </div>

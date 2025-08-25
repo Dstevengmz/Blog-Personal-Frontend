@@ -1,5 +1,6 @@
 import Swal from 'sweetalert2';
-
+// Estas alertas son solo exportadas para ser usadas en componentes React
+// Es otra forma de utilizar las alertas en el proyecto
 export function alertLoginSuccess(user) {
   const nombre = user?.nombre || user?.email || '';
   return Swal.fire({

@@ -8,7 +8,7 @@ const profile = {
   website: "",
   github: "https://github.com/Dstevengmz",
   linkedin: "https://www.linkedin.com/in/dstevengmz",
-  skills: ["Node.js", "Express", "Sequelize", "React", "Vite", "Bootstrap","python","Django","Flask","PostgreSQL","Mysql","MongoDB","Docker", "Git", "GitHub", "REST APIs", "Grafana","Flutter","Dart"],
+  skills: ["JavaScript", "Python", "Dart", "Java", "Vite", "NodeJS","Django","Flask","Mysql","PostgreSQL","MongoDB","Docker", "Git", "GitHub", "Grafana","Dart"],
 };
 
 export default profile;

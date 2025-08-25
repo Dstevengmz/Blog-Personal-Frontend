@@ -9,6 +9,10 @@ export async function listarProyectos() {
 	const { data } = await api.get("api/listarproyectos");
 	return data;
 }
+export async function eliminarProyecto(id) {
+	const { data } = await api.delete(`api/eliminarproyecto/${id}`);
+	return data;
+}
 
 export async function crearProyectoConImagenes(campos = {}, imagenes = []) {
 	const formData = new FormData();
@@ -26,4 +30,36 @@ export async function obtenerProyectoPorId(id) {
   return data;
 }
 
-export default { crearProyecto, listarProyectos, crearProyectoConImagenes, obtenerProyectoPorId };
+export async function editarProyecto(id, campos, imagenes = [], imagenesEliminar = []) {
+  const formData = new FormData();
+
+  Object.entries(campos).forEach(([key, value]) => {
+    if (value !== undefined && value !== null) {
+      formData.append(key, value);
+    }
+  });
+
+  (imagenes || []).forEach((file) => {
+    formData.append("imagenes", file);
+  });
+
+  (imagenesEliminar || []).forEach((img) => {
+    formData.append("imagenesEliminar", JSON.stringify(img));
+  });
+
+  try {
+    const { data } = await api.put(`api/editarproyecto/${id}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return data;
+  } catch (error) {
+    console.error("Error al actualizar el proyecto", error);
+    throw error;
+  }
+}
+
+
+
+export default { crearProyecto,editarProyecto,listarProyectos, crearProyectoConImagenes, obtenerProyectoPorId };
