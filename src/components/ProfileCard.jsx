@@ -23,8 +23,7 @@ function ProfileCard() {
           alt={name}
           width={120}
           height={120}
-          className="rounded-circle object-fit-cover"
-          style={{ objectFit: "cover" }}
+          className="rounded-circle object-cover"
         />
         <div className="w-100">
           <div className="d-flex flex-column flex-md-row align-items-md-center justify-content-between mb-2">

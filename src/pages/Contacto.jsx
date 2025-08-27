@@ -29,9 +29,8 @@ import { enviarContacto } from "../services/ContactoService";
       setSending(false);
     }
   };
-
   return (
-    <div className="bg-light py-5">
+    <div className="bg-light py-5 flex-grow-1 d-flex align-items-center">
       <Container>
         <Row className="justify-content-center">
           <Col md={10} lg={8}>
@@ -97,7 +96,6 @@ import { enviarContacto } from "../services/ContactoService";
                         <Form.Text muted>Hasta 2000 caracteres.</Form.Text>
                       </Form.Group>
                     </Col>
-                    {/* Honeypot hidden field to trap bots */}
                     <Col md={12} className="d-none" aria-hidden="true">
                       <Form.Group>
                         <Form.Label>Deja este campo vacío</Form.Label>

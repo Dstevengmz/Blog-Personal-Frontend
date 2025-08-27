@@ -1,68 +1,75 @@
-/* :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+html {
+  box-sizing: border-box;
+}
+*, *::before, *::after {
+  box-sizing: inherit;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+img, video, canvas, svg, iframe {
+  max-width: 100%;
+  height: auto;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+pre, code {
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+.overflow-debug * { outline: 1px solid rgba(255, 0, 0, 0.12); }
+
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  line-clamp: 3;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-} */
+.img-contain-180 {
+  object-fit: contain;
+  height: 180px;
+  background-color: #f8f9fa;
+}
+
+.img-contain-420 {
+  object-fit: contain;
+  height: 420px;
+  background-color: #f8f9fa;
+}
+
+.max-w-560 { max-width: 560px; }
+.max-w-260 { max-width: 260px; }
+.max-w-380 { max-width: 380px; }
+.w-140 { width: 140px; }
+.min-w-3rem { min-width: 3rem; }
+
+.pre-wrap { white-space: pre-wrap; }
+.fs-12 { font-size: 12px; }
+.object-cover { object-fit: cover; }
+.h-100px { height: 100px; }
+
+.pt-fixed-nav { padding-top: 72px; }
+
+.x-scroll-snap {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.x-scroll-snap::-webkit-scrollbar {
+  height: 8px;
+}
+.x-scroll-snap::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.2);
+  border-radius: 4px;
+}
+.snap-start { scroll-snap-align: start; }
+.min-w-280 { min-width: 280px; }
+.min-w-320 { min-width: 320px; }

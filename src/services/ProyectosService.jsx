@@ -5,8 +5,9 @@ export async function crearProyecto(payload) {
 	return data;
 }
 
-export async function listarProyectos() {
-	const { data } = await api.get("api/listarproyectos");
+export async function listarProyectos(tipo) {
+  const url = tipo ? `api/listarproyectos?tipo=${encodeURIComponent(tipo)}` : "api/listarproyectos";
+  const { data } = await api.get(url);
 	return data;
 }
 export async function eliminarProyecto(id) {

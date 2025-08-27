@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { assetUrl } from "../lib/assetUrl";
 import {
   Container,
@@ -15,14 +15,15 @@ import { listarProyectos } from "../services/ProyectosService";
 
 function Proyectos() {
   const [items, setItems] = useState([]);
+  const [tipo, setTipo] = useState(""); // '', 'web', 'movil'
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async (filtro) => {
     setLoading(true);
     setError("");
     try {
-      const data = await listarProyectos();
+      const data = await listarProyectos(filtro || undefined);
       setItems(Array.isArray(data) ? data : []);
     } catch (e) {
       setError(
@@ -31,11 +32,16 @@ function Proyectos() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData("");
+  }, [fetchData]);
+
+  const onChangeTipo = async (nuevo) => {
+    setTipo(nuevo);
+    await fetchData(nuevo);
+  };
 
   return (
     <>
@@ -46,6 +52,12 @@ function Proyectos() {
       </div>
 
       <Container className="py-4">
+        <div className="d-flex align-items-center gap-2 mb-3">
+          <span className="text-secondary">Filtrar:</span>
+          <Button variant={tipo === '' ? 'dark' : 'outline-secondary'} size="sm" onClick={() => onChangeTipo('')}>Todos</Button>
+          <Button variant={tipo === 'web' ? 'dark' : 'outline-secondary'} size="sm" onClick={() => onChangeTipo('web')}>Web</Button>
+          <Button variant={tipo === 'movil' ? 'dark' : 'outline-secondary'} size="sm" onClick={() => onChangeTipo('movil')}>Móvil</Button>
+        </div>
         {loading && (
           <div className="d-flex align-items-center gap-2">
             <Spinner animation="border" size="sm" /> Cargando…
@@ -77,11 +89,7 @@ function Proyectos() {
                       variant="top"
                       src={imgSrc}
                       alt={p.titulo}
-                      style={{
-                        objectFit: "contain",
-                        height: 180,
-                        backgroundColor: "#f8f9fa",
-                      }}
+                      className="img-contain-180"
                     />
                   )}
                   <Card.Body className="d-flex flex-column">
@@ -90,15 +98,7 @@ function Proyectos() {
                       {p.github && <Badge bg="dark">Repo</Badge>}
                     </div>
                     {p.descripcion && (
-                      <Card.Text
-                        className="text-secondary"
-                        style={{
-                          overflow: "hidden",
-                          display: "-webkit-box",
-                          WebkitLineClamp: 3,
-                          WebkitBoxOrient: "vertical",
-                        }}
-                      >
+                      <Card.Text className="text-secondary line-clamp-3">
                         {p.descripcion}
                       </Card.Text>
                     )}

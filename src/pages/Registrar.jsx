@@ -34,7 +34,7 @@ function Registrar() {
   return (
     <Container className="py-4">
       <Row className="justify-content-center">
-        <Col xs={12} sm={10} md={8} lg={6} xl={5} style={{ maxWidth: 560 }}>
+  <Col xs={12} sm={10} md={8} lg={6} xl={5} className="max-w-560">
           <Card className="shadow-sm border-0 rounded-3">
             <Card.Body className="p-4">
               <h3 className="text-center mb-4">Crear cuenta</h3>

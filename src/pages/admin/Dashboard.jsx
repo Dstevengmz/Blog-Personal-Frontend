@@ -1,9 +1,9 @@
-import { Card, Row, Col, Button } from "react-bootstrap";
+import { Card, Row, Col, Button, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
  function Dashboard() {
   return (
-    <div>
+    <Container className="py-4">
       <h2 className="mb-4">Panel de administración</h2>
       <Row className="g-3">
         <Col md={6} lg={4}>
@@ -34,7 +34,7 @@ import { Link } from "react-router-dom";
           </Card>
         </Col>
       </Row>
-    </div>
+    </Container>
   );
 }
 export default Dashboard;

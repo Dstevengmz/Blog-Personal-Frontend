@@ -79,8 +79,7 @@ function ProyectoDetalle() {
                     <img
                       src={img.src}
                       alt={item.titulo}
-                      className="d-block w-100"
-                      style={{ objectFit: 'contain', height: 420, backgroundColor: '#f8f9fa' }}
+                      className="d-block w-100 img-contain-420"
                     />
                   </Carousel.Item>
                 ))}
@@ -93,7 +92,7 @@ function ProyectoDetalle() {
             <Card className="shadow-sm h-100">
               <Card.Body className="d-flex flex-column">
                 <Card.Title>Descripción</Card.Title>
-                <Card.Text className="text-secondary" style={{ whiteSpace: 'pre-wrap' }}>{item.descripcion || 'Sin descripción'}</Card.Text>
+                <Card.Text className="text-secondary pre-wrap">{item.descripcion || 'Sin descripción'}</Card.Text>
                 <div className="mt-auto d-flex gap-2">
                   {item.github && <Button as="a" href={item.github} target="_blank" rel="noreferrer" variant="dark">Ver en GitHub</Button>}
                   {item.demoUrl && <Button as="a" href={item.demoUrl} target="_blank" rel="noreferrer" variant="primary">Ver Demo</Button>}
@@ -115,12 +114,12 @@ function ProyectoDetalle() {
                     <div className="d-flex justify-content-between">
                       <div>
                         <strong>{c.autor?.nombre || 'Usuario'}</strong>
-                        <div className="text-secondary" style={{ fontSize: 12 }}>
+                        <div className="text-secondary fs-12">
                           {new Date(c.createdAt).toLocaleString()}
                         </div>
                       </div>
                     </div>
-                    <div className="mt-2" style={{ whiteSpace: 'pre-wrap' }}>{c.contenido}</div>
+                    <div className="mt-2 pre-wrap">{c.contenido}</div>
                   </Card.Body>
                 </Card>
               ))

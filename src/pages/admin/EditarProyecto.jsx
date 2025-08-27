@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Button, Form, Container, Row as RBRow, Col as RBCol, Alert, Image } from "react-bootstrap";
+import {
+  Button,
+  Form,
+  Container,
+  Row as RBRow,
+  Col as RBCol,
+  Alert,
+  Image,
+} from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   editarProyecto,
@@ -12,6 +20,7 @@ const EditarProyecto = () => {
     descripcion: "",
     github: "",
     demoUrl: "",
+    tipo: "",
   });
 
   const [loading, setLoading] = useState(true);
@@ -28,14 +37,15 @@ const EditarProyecto = () => {
     const obtenerProyecto = async () => {
       setLoading(true);
       try {
-  const data = await obtenerProyectoPorId(id);
+        const data = await obtenerProyectoPorId(id);
         setForm({
           titulo: data.titulo,
           descripcion: data.descripcion,
           github: data.github,
           demoUrl: data.demoUrl,
+          tipo: data.tipo,
         });
-  setImagenes(Array.isArray(data.imagenes) ? data.imagenes : []);
+        setImagenes(Array.isArray(data.imagenes) ? data.imagenes : []);
       } catch (error) {
         setError("Error al cargar el proyecto");
         console.error(error);
@@ -55,23 +65,28 @@ const EditarProyecto = () => {
     }));
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  setSaveError("");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSaveError("");
 
-  const updatedProyecto = { ...form };
+    const updatedProyecto = { ...form };
 
-  try {
-    const response = await editarProyecto(id, updatedProyecto, files, imagenesEliminar);
-    if (response) {
-      alert("Proyecto actualizado correctamente");
-      navigate("/admin/proyectos");
+    try {
+      const response = await editarProyecto(
+        id,
+        updatedProyecto,
+        files,
+        imagenesEliminar
+      );
+      if (response) {
+        alert("Proyecto actualizado correctamente");
+        navigate("/admin/proyectos");
+      }
+    } catch (error) {
+      console.error("Error al actualizar el proyectossss:", error);
+      setSaveError("Hubo un error al actualizar el proyecto", error);
     }
-  } catch (error) {
-    console.error("Error al actualizar el proyectossss:", error);
-    setSaveError("Hubo un error al actualizar el proyecto", error);
-  }
-};
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -124,6 +139,22 @@ const handleSubmit = async (e) => {
               />
             </Form.Group>
           </RBCol>
+          <RBCol md={6}>
+            <Form.Group className="mb-2">
+              <Form.Label>Tipo Proyecto</Form.Label>
+              <Form.Select
+                className="form-select"
+                name="tipo"
+                value={form.tipo}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Seleccione tipo</option>
+                <option value="web">web</option>
+                <option value="movil">movil</option>
+              </Form.Select>
+            </Form.Group>
+          </RBCol>
 
           <RBCol md={12}>
             <Form.Group className="mb-2">
@@ -146,10 +177,17 @@ const handleSubmit = async (e) => {
               ) : (
                 <div className="d-flex flex-wrap gap-3">
                   {imagenes.map((img, idx) => {
-                    const marcado = imagenesEliminar.some((x) => x.url === img.url);
+                    const marcado = imagenesEliminar.some(
+                      (x) => x.url === img.url
+                    );
                     return (
-                      <div key={idx} style={{ width: 140 }}>
-                        <Image src={img.url} thumbnail alt={`img-${idx}`} style={{ width: 140, height: 100, objectFit: 'cover' }} />
+                        <div key={idx} className="w-140">
+                        <Image
+                          src={img.url}
+                          thumbnail
+                          alt={`img-${idx}`}
+                          className="w-140 h-100px object-cover"
+                        />
                         <Form.Check
                           type="checkbox"
                           label="Eliminar"
@@ -188,7 +226,9 @@ const handleSubmit = async (e) => {
               />
               {files.length > 0 && (
                 <div className="mt-2">
-                  <small className="text-muted">Seleccionadas: {files.length}/10</small>
+                  <small className="text-muted">
+                    Seleccionadas: {files.length}/10
+                  </small>
                 </div>
               )}
             </Form.Group>
@@ -199,7 +239,11 @@ const handleSubmit = async (e) => {
           <Button type="submit" variant="primary">
             Guardar cambios
           </Button>
-          <Button type="button" variant="secondary" onClick={() => navigate("/admin/proyectos")}>
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={() => navigate("/admin/proyectos")}
+          >
             Cancelar
           </Button>
         </div>

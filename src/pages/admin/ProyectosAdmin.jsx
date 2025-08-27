@@ -30,6 +30,7 @@ function ProyectosAdmin() {
     descripcion: "",
     github: "",
     demoUrl: "",
+    tipo: "",
   });
   const [files, setFiles] = useState([]);
 
@@ -53,15 +54,17 @@ function ProyectosAdmin() {
   const EliminarProyectoId = async (id) => {
     const mensajesAlertas = new MensajesAlertas();
     await mensajesAlertas.confirmarEliminacion(async () => {
-    try {
-      const result = await eliminarProyecto(id);
-      console.log(result); 
-      setRows((prevRows) => prevRows.filter((proyecto) => proyecto.id !== id));
-    } catch (error) {
-      console.error("Error al eliminar el proyecto:", error);
-      alert("Hubo un error al eliminar el proyecto. Intenta nuevamente.");
-    }
-  });
+      try {
+        const result = await eliminarProyecto(id);
+        console.log(result);
+        setRows((prevRows) =>
+          prevRows.filter((proyecto) => proyecto.id !== id)
+        );
+      } catch (error) {
+        console.error("Error al eliminar el proyecto:", error);
+        alert("Hubo un error al eliminar el proyecto. Intenta nuevamente.");
+      }
+    });
   };
 
   return (
@@ -99,6 +102,7 @@ function ProyectosAdmin() {
                   descripcion: "",
                   github: "",
                   demoUrl: "",
+                  tipo: "",
                 });
                 setFiles([]);
                 setCreating(false);
@@ -152,6 +156,25 @@ function ProyectosAdmin() {
                   />
                 </Form.Group>
               </RBCol>
+              <RBCol md={6}>
+                <Form.Group className="mb-2">
+                  <Form.Label>Tipo Proyecto</Form.Label>
+                  <Form.Select
+                    className="form-select"
+                    name="tipo"
+                    value={form.tipo}
+                    onChange={(e) =>
+                      setForm({ ...form, tipo: e.target.value })
+                    }
+                    required
+                  >
+                    <option value="">Seleccione tipo</option>
+                    <option value="web">web</option>
+                    <option value="movil">movil</option>
+                  </Form.Select>
+                </Form.Group>
+              </RBCol>
+
               <RBCol md={12}>
                 <Form.Group className="mb-2">
                   <Form.Label>Descripción</Form.Label>
@@ -193,8 +216,7 @@ function ProyectosAdmin() {
                             className="d-flex align-items-center gap-2"
                           >
                             <span
-                              className="text-truncate"
-                              style={{ maxWidth: 260 }}
+                                className="text-truncate max-w-260"
                             >
                               {f.name}
                             </span>

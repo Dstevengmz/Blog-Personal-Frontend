@@ -69,7 +69,7 @@ function Login() {
       fluid
       className="d-flex justify-content-center align-items-center min-vh-100 bg-light"
     >
-      <Row className="w-100 justify-content-center px-3">
+  <Row className="w-100 justify-content-center px-2 px-sm-3 mx-0">
         <Col
           xs={12}
           sm={10}
@@ -77,7 +77,7 @@ function Login() {
           lg={6}
           xl={5}
           xxl={4}
-          style={{ maxWidth: 560 }}
+          className="max-w-560"
         >
           <Card className="shadow-lg border-0 rounded-4">
             <Card.Body className="p-5">
@@ -118,8 +118,7 @@ function Login() {
                       variant="outline-secondary"
                       type="button"
                       onClick={() => setShowPassword((prev) => !prev)}
-                      className="d-flex align-items-center"
-                      style={{ minWidth: "3rem" }}
+                      className="d-flex align-items-center min-w-3rem"
                     >
                       {showPassword ? <EyeSlash /> : <Eye />}
                     </Button>
