@@ -15,7 +15,7 @@ import { listarProyectos } from "../services/ProyectosService";
 
 function Proyectos() {
   const [items, setItems] = useState([]);
-  const [tipo, setTipo] = useState(""); // '', 'web', 'movil'
+  const [tipo, setTipo] = useState(""); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -49,8 +49,8 @@ function Proyectos() {
         <Container>
           <h1 className="text-center"> Mis Proyectos</h1>
         </Container>
+        <p>Blog en mantenimiento Agregando proyectos</p>
       </div>
-
       <Container className="py-4">
         <div className="d-flex align-items-center gap-2 mb-3">
           <span className="text-secondary">Filtrar:</span>
