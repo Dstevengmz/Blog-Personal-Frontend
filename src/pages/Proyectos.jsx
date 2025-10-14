@@ -49,7 +49,6 @@ function Proyectos() {
         <Container>
           <h1 className="text-center"> Mis Proyectos</h1>
         </Container>
-        <p>Blog en mantenimiento Agregando proyectos</p>
       </div>
       <Container className="py-4">
         <div className="d-flex align-items-center gap-2 mb-3">
