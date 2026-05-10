@@ -9,6 +9,8 @@ import {
   Alert,
   Accordion,
 } from "react-bootstrap";
+import ProjectImage from "../components/VelocidaImagenes";
+
 import { Link } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { assetUrl } from "../lib/assetUrl";
@@ -26,31 +28,6 @@ import {
   Git,
   Send,
 } from "react-bootstrap-icons";
-
-function ProjectImage({ src, alt }) {
-  const [error, setError] = useState(false);
-
-  if (!src || error) {
-    return (
-      <div className="img-contain-180 d-flex align-items-center justify-content-center bg-light">
-        <CodeSlash size={42} className="text-primary" />
-      </div>
-    );
-  }
-
-  return (
-    <Card.Img
-      variant="top"
-      src={src}
-      alt={alt}
-      className="img-contain-180"
-      loading="lazy"
-      decoding="async"
-      fetchPriority="low"
-      onError={() => setError(true)}
-    />
-  );
-}
 
 function Home() {
   const [items, setItems] = useState([]);

@@ -10,12 +10,13 @@ import {
   Spinner,
   Alert,
 } from "react-bootstrap";
+import ProjectImage from "../components/VelocidaImagenes";
 import { Link } from "react-router-dom";
 import { listarProyectos } from "../services/ProyectosService";
 
 function Proyectos() {
   const [items, setItems] = useState([]);
-  const [tipo, setTipo] = useState(""); 
+  const [tipo, setTipo] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -81,16 +82,8 @@ function Proyectos() {
                 <Card
                   as={Link}
                   to={`/proyectos/${p.id}`}
-                  className="h-100 shadow-sm text-reset text-decoration-none"
-                >
-                  {imgSrc && (
-                    <Card.Img
-                      variant="top"
-                      src={imgSrc}
-                      alt={p.titulo}
-                      className="img-contain-180"
-                    />
-                  )}
+                  className="h-100 shadow-sm text-reset text-decoration-none">
+                  <ProjectImage src={imgSrc} alt={p.titulo} priority={index === 0} />
                   <Card.Body className="d-flex flex-column">
                     <div className="d-flex align-items-start justify-content-between mb-1">
                       <Card.Title className="mb-0">{p.titulo}</Card.Title>
