@@ -11,29 +11,36 @@ import {
   Alert,
 } from "react-bootstrap";
 import ProjectImage from "../components/VelocidaImagenes";
-import { Link } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { listarProyectos } from "../services/ProyectosService";
 
+
 function Proyectos() {
+  const navigate = useNavigate();
+
   const [items, setItems] = useState([]);
   const [tipo, setTipo] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+const fetchData = useCallback(async (filtro) => {
+  setLoading(true);
+  setError("");
 
-  const fetchData = useCallback(async (filtro) => {
-    setLoading(true);
-    setError("");
-    try {
-      const data = await listarProyectos(filtro || undefined);
-      setItems(Array.isArray(data) ? data : []);
-    } catch (e) {
-      setError(
-        e?.response?.data?.error || "No se pudieron cargar los proyectos"
-      );
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  try {
+    const inicio = performance.now();
+
+    const data = await listarProyectos(filtro || undefined);
+
+    const fin = performance.now();
+    setItems(Array.isArray(data) ? data : []);
+  } catch (e) {
+    setError(
+      e?.response?.data?.error || "No se pudieron cargar los proyectos"
+    );
+  } finally {
+    setLoading(false);
+  }
+}, []);
 
   useEffect(() => {
     fetchData("");
@@ -75,15 +82,16 @@ function Proyectos() {
 
         <Row className="g-4">
           {items.map((p, index) => {
-            const firstImg = p?.imagenes?.[0]?.url;
+            const firstImg = p?.imagenes?.[0]?.thumbnailUrl || p?.imagenes?.[0]?.url;
             const imgSrc = assetUrl(firstImg);
             return (
               <Col key={p.id} md={6} lg={4}>
                 <Card
-                  as={Link}
-                  to={`/proyectos/${p.id}`}
-                  className="h-100 shadow-sm text-reset text-decoration-none">
-                  <ProjectImage src={imgSrc} alt={p.titulo} priority={index === 0} />
+                  className="h-100 shadow-sm text-reset text-decoration-none"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => navigate(`/proyectos/${p.id}`)}
+                >
+                  <ProjectImage src={imgSrc} alt={p.titulo} priority={index < 3} />
                   <Card.Body className="d-flex flex-column">
                     <div className="d-flex align-items-start justify-content-between mb-1">
                       <Card.Title className="mb-0">{p.titulo}</Card.Title>
@@ -103,6 +111,7 @@ function Proyectos() {
                           rel="noreferrer"
                           variant="outline-dark"
                           size="sm"
+                          onClick={(e) => e.stopPropagation()}
                         >
                           GitHub
                         </Button>
@@ -115,6 +124,7 @@ function Proyectos() {
                           rel="noreferrer"
                           variant="primary"
                           size="sm"
+                          onClick={(e) => e.stopPropagation()}
                         >
                           Demo
                         </Button>

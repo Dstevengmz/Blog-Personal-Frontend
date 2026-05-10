@@ -3,7 +3,7 @@ import { Card } from "react-bootstrap";
 
 function ProjectImage({ src, alt, priority = false }) {
   const [error, setError] = useState(false);
-
+  
   if (!src || error) {
     return (
       <div className="img-contain-180 d-flex align-items-center justify-content-center bg-light">
