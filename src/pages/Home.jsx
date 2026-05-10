@@ -27,6 +27,31 @@ import {
   Send,
 } from "react-bootstrap-icons";
 
+function ProjectImage({ src, alt }) {
+  const [error, setError] = useState(false);
+
+  if (!src || error) {
+    return (
+      <div className="img-contain-180 d-flex align-items-center justify-content-center bg-light">
+        <CodeSlash size={42} className="text-primary" />
+      </div>
+    );
+  }
+
+  return (
+    <Card.Img
+      variant="top"
+      src={src}
+      alt={alt}
+      className="img-contain-180"
+      loading="lazy"
+      decoding="async"
+      fetchPriority="low"
+      onError={() => setError(true)}
+    />
+  );
+}
+
 function Home() {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -387,14 +412,12 @@ function Home() {
                   to={`/proyectos/${p.id}`}
                   className="h-100 shadow-sm text-reset text-decoration-none"
                 >
-                  {imgSrc && (
-                    <Card.Img
-                      variant="top"
-                      src={imgSrc}
-                      alt={p.titulo}
-                      className="img-contain-180"
-                    />
-                  )}
+
+
+                  <ProjectImage src={imgSrc} alt={p.titulo} />
+
+
+
                   <Card.Body className="d-flex flex-column">
                     <div className="d-flex align-items-start justify-content-between mb-1">
                       <Card.Title className="mb-0">{p.titulo}</Card.Title>
