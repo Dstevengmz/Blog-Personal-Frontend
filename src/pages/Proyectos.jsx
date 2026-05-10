@@ -74,7 +74,7 @@ function Proyectos() {
         )}
 
         <Row className="g-4">
-          {items.map((p) => {
+          {items.map((p, index) => {
             const firstImg = p?.imagenes?.[0]?.url;
             const imgSrc = assetUrl(firstImg);
             return (
