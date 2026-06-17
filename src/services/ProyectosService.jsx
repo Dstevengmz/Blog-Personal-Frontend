@@ -5,10 +5,14 @@ export async function crearProyecto(payload) {
 	return data;
 }
 
-export async function listarProyectos(tipo) {
-  const url = tipo ? `api/listarproyectos?tipo=${encodeURIComponent(tipo)}` : "api/listarproyectos";
+export async function listarProyectos(tipo, limit) {
+  const params = new URLSearchParams();
+  if (tipo) params.set('tipo', tipo);
+  if (limit) params.set('limit', limit);
+  const query = params.toString();
+  const url = query ? `api/listarproyectos?${query}` : "api/listarproyectos";
   const { data } = await api.get(url);
-	return data;
+  return data;
 }
 export async function eliminarProyecto(id) {
 	const { data } = await api.delete(`api/eliminarproyecto/${id}`);

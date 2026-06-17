@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Container, Row, Col, Badge, Button, Carousel, Spinner, Alert, Card, Form } from "react-bootstrap";
+import { Container, Row, Col, Badge, Button, Carousel, Alert, Card, Form, Spinner } from "react-bootstrap";
 import { obtenerProyectoPorId } from "../services/ProyectosService";
 import { listarComentarios, crearComentario } from "../services/ComentariosService";
 import { confirmComentar, alertComentarioPublicado, alertError } from "../assets/js";
 import { assetUrl } from "../lib/assetUrl";
+import ProjectSkeletonGrid from "../components/ProjectSkeletonGrid";
+import RevealOnScroll from "../components/RevealOnScroll";
 
 function ProyectoDetalle() {
   const { id } = useParams();
@@ -15,7 +17,6 @@ function ProyectoDetalle() {
   const [nuevoComentario, setNuevoComentario] = useState("");
   const [posting, setPosting] = useState(false);
 
-
   useEffect(() => {
     const run = async () => {
       setLoading(true);
@@ -23,8 +24,8 @@ function ProyectoDetalle() {
       try {
         const data = await obtenerProyectoPorId(id);
         setItem(data);
-  const coms = await listarComentarios(id);
-  setComentarios(Array.isArray(coms) ? coms : []);
+        const coms = await listarComentarios(id);
+        setComentarios(Array.isArray(coms) ? coms : []);
       } catch (e) {
         setError(e?.response?.data?.error || "No se pudo cargar el proyecto");
       } finally {
@@ -36,17 +37,33 @@ function ProyectoDetalle() {
 
   if (loading) {
     return (
-      <Container className="py-4"><Spinner animation="border" size="sm"/> Cargando…</Container>
+      <div className="section-white">
+        <Container>
+          <ProjectSkeletonGrid count={2} />
+        </Container>
+      </div>
     );
   }
+
   if (error) {
     return (
-      <Container className="py-4"><Alert variant="danger">{error}</Alert></Container>
+      <Container className="py-5">
+        <Alert variant="danger">{error}</Alert>
+        <Link to="/proyectos" className="btn btn-outline-secondary btn-sm">
+          ← Volver a proyectos
+        </Link>
+      </Container>
     );
   }
+
   if (!item) {
     return (
-      <Container className="py-4"><Alert variant="secondary">Proyecto no encontrado.</Alert></Container>
+      <Container className="py-5">
+        <Alert variant="secondary">Proyecto no encontrado.</Alert>
+        <Link to="/proyectos" className="btn btn-outline-secondary btn-sm">
+          ← Volver a proyectos
+        </Link>
+      </Container>
     );
   }
 
@@ -54,56 +71,99 @@ function ProyectoDetalle() {
 
   return (
     <>
-      <div className="bg-light py-4 border-bottom">
+      {/* Header */}
+      <div className="page-header">
         <Container>
-          <div className="d-flex align-items-center justify-content-between">
-            <div>
-              <h1 className="mb-1">{item.titulo}</h1>
-              <div className="d-flex gap-2">
-                {item.github && <Badge bg="dark">Repo</Badge>}
-                {item.demoUrl && <Badge bg="primary">Demo</Badge>}
-              </div>
+          <RevealOnScroll>
+            <Link
+              to="/proyectos"
+              className="text-secondary small mb-3 d-inline-block text-decoration-none"
+              style={{ letterSpacing: "0.01em" }}
+            >
+              ← Volver a proyectos
+            </Link>
+            <h1 className="section-title mb-2">{item.titulo}</h1>
+            <div className="d-flex gap-2">
+              {item.github && <Badge bg="dark">Repo</Badge>}
+              {item.demoUrl && <Badge bg="primary">Demo</Badge>}
             </div>
-            <Button as={Link} to="/proyectos" variant="outline-secondary">Volver</Button>
-          </div>
+          </RevealOnScroll>
         </Container>
       </div>
 
-      <Container className="py-4">
-        <Row className="g-4">
-          <Col lg={7}>
-            {images.length > 0 ? (
-              <Carousel variant="dark">
-                {images.map((img) => (
-                  <Carousel.Item key={img.id}>
-                    <img
-                      src={img.src}
-                      alt={item.titulo}
-                      className="d-block w-100 img-contain-420"
-                    />
-                  </Carousel.Item>
-                ))}
-              </Carousel>
-            ) : (
-              <Card className="shadow-sm"><Card.Body className="text-secondary">Este proyecto aún no tiene imágenes.</Card.Body></Card>
-            )}
-          </Col>
-          <Col lg={5}>
-            <Card className="shadow-sm h-100">
-              <Card.Body className="d-flex flex-column">
-                <Card.Title>Descripción</Card.Title>
-                <Card.Text className="text-secondary pre-wrap">{item.descripcion || 'Sin descripción'}</Card.Text>
-                <div className="mt-auto d-flex gap-2">
-                  {item.github && <Button as="a" href={item.github} target="_blank" rel="noreferrer" variant="dark">Ver en GitHub</Button>}
-                  {item.demoUrl && <Button as="a" href={item.demoUrl} target="_blank" rel="noreferrer" variant="primary">Ver Demo</Button>}
-                </div>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-        {/* Comentarios */}
-        <Row className="g-4 mt-2">
-          <Col lg={12}>
+      {/* Cuerpo principal */}
+      <div className="section-white">
+        <Container>
+          <Row className="g-4">
+            <Col lg={7}>
+              <RevealOnScroll>
+                {images.length > 0 ? (
+                  <Carousel variant="dark">
+                    {images.map((img) => (
+                      <Carousel.Item key={img.id}>
+                        <img
+                          src={img.src}
+                          alt={item.titulo}
+                          className="d-block w-100 img-contain-420"
+                        />
+                      </Carousel.Item>
+                    ))}
+                  </Carousel>
+                ) : (
+                  <div
+                    className="card-pro d-flex align-items-center justify-content-center text-secondary"
+                    style={{ height: "180px", cursor: "default" }}
+                  >
+                    Este proyecto aún no tiene imágenes.
+                  </div>
+                )}
+              </RevealOnScroll>
+            </Col>
+
+            <Col lg={5}>
+              <RevealOnScroll delay={0.1}>
+                <Card className="card-pro h-100" style={{ cursor: "default" }}>
+                  <Card.Body className="d-flex flex-column">
+                    <Card.Title>Descripción</Card.Title>
+                    <Card.Text className="text-secondary pre-wrap">
+                      {item.descripcion || "Sin descripción"}
+                    </Card.Text>
+                    <div className="mt-auto d-flex gap-2">
+                      {item.github && (
+                        <Button
+                          as="a"
+                          href={item.github}
+                          target="_blank"
+                          rel="noreferrer"
+                          variant="dark"
+                        >
+                          Ver en GitHub
+                        </Button>
+                      )}
+                      {item.demoUrl && (
+                        <Button
+                          as="a"
+                          href={item.demoUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          variant="primary"
+                        >
+                          Ver Demo
+                        </Button>
+                      )}
+                    </div>
+                  </Card.Body>
+                </Card>
+              </RevealOnScroll>
+            </Col>
+          </Row>
+        </Container>
+      </div>
+
+      {/* Comentarios */}
+      <div className="section-soft">
+        <Container>
+          <RevealOnScroll>
             <h4 className="mb-3">Comentarios</h4>
             {comentarios.length === 0 ? (
               <Alert variant="secondary">Sé el primero en comentar.</Alert>
@@ -113,7 +173,7 @@ function ProyectoDetalle() {
                   <Card.Body>
                     <div className="d-flex justify-content-between">
                       <div>
-                        <strong>{c.autor?.nombre || 'Usuario'}</strong>
+                        <strong>{c.autor?.nombre || "Usuario"}</strong>
                         <div className="text-secondary fs-12">
                           {new Date(c.createdAt).toLocaleString()}
                         </div>
@@ -124,28 +184,33 @@ function ProyectoDetalle() {
                 </Card>
               ))
             )}
-            {localStorage.getItem('token') ? (
+
+            {localStorage.getItem("token") ? (
               <Card className="mt-3">
                 <Card.Body>
-                  <Form onSubmit={async (e) => {
-                    e.preventDefault();
-                    const contenido = nuevoComentario.trim();
-                    if (!contenido) return;
-                    const ok = await confirmComentar();
-                    if (!ok) return;
-                    setPosting(true);
-                    try {
-                      await crearComentario(id, contenido);
-                      const coms = await listarComentarios(id);
-                      setComentarios(Array.isArray(coms) ? coms : []);
-                      setNuevoComentario("");
-                      await alertComentarioPublicado();
-                    } catch (err) {
-                      await alertError(err?.response?.data?.error || 'No se pudo publicar el comentario');
-                    } finally {
-                      setPosting(false);
-                    }
-                  }}>
+                  <Form
+                    onSubmit={async (e) => {
+                      e.preventDefault();
+                      const contenido = nuevoComentario.trim();
+                      if (!contenido) return;
+                      const ok = await confirmComentar();
+                      if (!ok) return;
+                      setPosting(true);
+                      try {
+                        await crearComentario(id, contenido);
+                        const coms = await listarComentarios(id);
+                        setComentarios(Array.isArray(coms) ? coms : []);
+                        setNuevoComentario("");
+                        await alertComentarioPublicado();
+                      } catch (err) {
+                        await alertError(
+                          err?.response?.data?.error || "No se pudo publicar el comentario"
+                        );
+                      } finally {
+                        setPosting(false);
+                      }
+                    }}
+                  >
                     <Form.Group>
                       <Form.Label>Deja tu comentario</Form.Label>
                       <Form.Control
@@ -159,20 +224,33 @@ function ProyectoDetalle() {
                       <Form.Text muted>Hasta 1000 caracteres.</Form.Text>
                     </Form.Group>
                     <div className="mt-2">
-                      <Button type="submit" disabled={posting || !nuevoComentario.trim()}>
-                        {posting ? 'Publicando…' : 'Publicar comentario'}
+                      <Button
+                        type="submit"
+                        disabled={posting || !nuevoComentario.trim()}
+                      >
+                        {posting ? (
+                          <>
+                            <Spinner animation="border" size="sm" className="me-2" />
+                            Publicando…
+                          </>
+                        ) : (
+                          "Publicar comentario"
+                        )}
                       </Button>
                     </div>
                   </Form>
                 </Card.Body>
               </Card>
             ) : (
-              <Alert variant="light" className="mt-3">Inicia sesión para comentar.</Alert>
+              <Alert variant="light" className="mt-3">
+                Inicia sesión para comentar.
+              </Alert>
             )}
-          </Col>
-        </Row>
-      </Container>
+          </RevealOnScroll>
+        </Container>
+      </div>
     </>
   );
 }
+
 export default ProyectoDetalle;

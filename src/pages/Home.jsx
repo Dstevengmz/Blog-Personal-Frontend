@@ -5,11 +5,12 @@ import {
   Button,
   Card,
   Badge,
-  Spinner,
   Alert,
   Accordion,
 } from "react-bootstrap";
 import ProjectImage from "../components/VelocidaImagenes";
+import RevealOnScroll from "../components/RevealOnScroll";
+import ProjectSkeletonGrid from "../components/ProjectSkeletonGrid";
 
 import { Link } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
@@ -45,7 +46,7 @@ function Home() {
       setLoading(true);
       setError("");
       try {
-        const data = await listarProyectos();
+        const data = await listarProyectos(undefined, 6);
         setItems(Array.isArray(data) ? data.slice(0, 6) : []);
       } catch (e) {
         setError(
@@ -60,19 +61,20 @@ function Home() {
   return (
     <>
       {/* Hero */}
-      <div className="bg-light border-bottom min-vh-100 d-flex align-items-center">
+      <div className="hero-section min-vh-100 d-flex align-items-center">
         <Container>
           <Row className="align-items-center gy-4">
             <Col md={7} lg={7}>
-              <Badge bg="dark" className="mb-3">
+              <RevealOnScroll>
+              <Badge bg="primary" className="mb-3 opacity-75">
                 Disponible para oportunidades
               </Badge>
-              <h1 className="fw-bold lh-sm mb-3">
+              <h1 className="fw-bold lh-sm mb-3 section-title">
                 Desarrollador Full&nbsp;Stack que convierte ideas en productos
                 listos para producción
               </h1>
               <p className="lead text-secondary mb-3">
-                Soy {profile.name.split(" ")[0]} {profile.name.split(" ")[1]},{" "}
+                Soy {profile.displayName},{" "}
                 {profile.role}. Construyo aplicaciones web y móviles con
                 <strong> React</strong>, <strong>Node.js</strong> y{" "}
                 <strong>Python/Django</strong>, cuidando rendimiento, DX y
@@ -100,17 +102,19 @@ function Home() {
               <div className="d-flex flex-wrap gap-2 mt-4">
                 {Array.isArray(profile.skills) &&
                   profile.skills.slice(0, 10).map((s) => (
-                    <Badge bg="light" text="dark" key={s} className="border">
+                    <Badge bg="light" text="dark" key={s} className="skill-badge">
                       {s}
                     </Badge>
                   ))}
               </div>
+              </RevealOnScroll>
             </Col>
             <Col md={5} lg={5} className="text-center text-md-end">
               <img
                 src={profile.avatarUrl}
                 alt={`Foto de ${profile.name}`}
-                className="img-fluid rounded-4 shadow-sm max-w-380 object-cover"
+                className="img-fluid rounded-4 shadow max-w-380 object-cover hover-lift animate-float"
+                onError={(e) => { e.currentTarget.style.display = "none"; }}
               />
               <div className="text-secondary mt-2 small">
                 {profile.location}
@@ -120,6 +124,7 @@ function Home() {
 
           <Row className="mt-5">
             <Col md={12}>
+              <RevealOnScroll>
               <Accordion>
                 <Accordion.Item eventKey="0">
                   <Accordion.Header>Sobre mí</Accordion.Header>
@@ -167,24 +172,26 @@ function Home() {
                   </Accordion.Body>
                 </Accordion.Item>
               </Accordion>
+              </RevealOnScroll>
             </Col>
           </Row>
         </Container>
       </div>
-      <div className="bg-white py-5 border-top">
+      <div className="section-soft">
         <Container>
-          <div className="d-flex align-items-center justify-content-between mb-3">
-            <h2 className="mb-0">¿Cómo puedo ayudarte?</h2>
+          <RevealOnScroll>
+          <div className="d-flex align-items-center justify-content-between mb-4">
+            <h2 className="section-title mb-0">¿Cómo puedo ayudarte?</h2>
             <div className="d-none d-md-flex gap-2">
               <Button
-                variant="outline-secondary"
+                variant="outline-primary"
                 size="sm"
                 onClick={() => scrollServices(-360)}
               >
                 ◀
               </Button>
               <Button
-                variant="outline-secondary"
+                variant="outline-primary"
                 size="sm"
                 onClick={() => scrollServices(360)}
               >
@@ -194,7 +201,7 @@ function Home() {
           </div>
           <div ref={servicesRef} className="x-scroll-snap d-flex gap-3 pb-2">
             {/* Frontend */}
-            <Card className="shadow-sm min-w-320 snap-start">
+            <Card className="card-pro card-service min-w-320 snap-start">
               <Card.Body>
                 <div className="text-primary mb-2">
                   <CodeSlash size={24} />
@@ -206,7 +213,7 @@ function Home() {
               </Card.Body>
             </Card>
             {/* Backend */}
-            <Card className="shadow-sm min-w-320 snap-start">
+            <Card className="card-pro card-service min-w-320 snap-start">
               <Card.Body>
                 <div className="text-primary mb-2">
                   <Server size={24} />
@@ -219,7 +226,7 @@ function Home() {
               </Card.Body>
             </Card>
             {/* DevOps */}
-            <Card className="shadow-sm min-w-320 snap-start">
+            <Card className="card-pro card-service min-w-320 snap-start">
               <Card.Body>
                 <div className="text-primary mb-2">
                   <Cloud size={24} />
@@ -231,7 +238,7 @@ function Home() {
               </Card.Body>
             </Card>
             {/* Testing */}
-            <Card className="shadow-sm min-w-320 snap-start">
+            <Card className="card-pro card-service min-w-320 snap-start">
               <Card.Body>
                 <div className="text-primary mb-2">
                   <Bug size={24} />
@@ -244,7 +251,7 @@ function Home() {
               </Card.Body>
             </Card>
             {/* Mobile */}
-            <Card className="shadow-sm min-w-320 snap-start">
+            <Card className="card-pro card-service min-w-320 snap-start">
               <Card.Body>
                 <div className="text-primary mb-2">
                   <Phone size={24} />
@@ -257,7 +264,7 @@ function Home() {
               </Card.Body>
             </Card>
             {/* UI/UX */}
-            <Card className="shadow-sm min-w-320 snap-start">
+            <Card className="card-pro card-service min-w-320 snap-start">
               <Card.Body>
                 <div className="text-primary mb-2">
                   <Palette size={24} />
@@ -270,7 +277,7 @@ function Home() {
               </Card.Body>
             </Card>
             {/* Documentación */}
-            <Card className="shadow-sm min-w-320 snap-start">
+            <Card className="card-pro card-service min-w-320 snap-start">
               <Card.Body>
                 <div className="text-primary mb-2">
                   <FileText size={24} />
@@ -283,7 +290,7 @@ function Home() {
               </Card.Body>
             </Card>
             {/* Arduino / Hardware */}
-            <Card className="shadow-sm min-w-320 snap-start">
+            <Card className="card-pro card-service min-w-320 snap-start">
               <Card.Body>
                 <div className="text-primary mb-2">
                   <Cpu size={24} />
@@ -295,7 +302,7 @@ function Home() {
                 </p>
               </Card.Body>
             </Card>
-            <Card className="shadow-sm min-w-320 snap-start">
+            <Card className="card-pro card-service min-w-320 snap-start">
               <Card.Body>
                 <div className="text-primary mb-2">
                   <Database size={24} />
@@ -306,7 +313,7 @@ function Home() {
                 </p>
               </Card.Body>
             </Card>
-            <Card className="shadow-sm min-w-320 snap-start">
+            <Card className="card-pro card-service min-w-320 snap-start">
               <Card.Body>
                 <div className="text-primary mb-2">
                   <Send size={24} />
@@ -317,7 +324,7 @@ function Home() {
                 </p>
               </Card.Body>
             </Card>
-            <Card className="shadow-sm min-w-320 snap-start">
+            <Card className="card-pro card-service min-w-320 snap-start">
               <Card.Body>
                 <div className="text-primary mb-2">
                   <Kanban size={24} />
@@ -329,7 +336,7 @@ function Home() {
                 </p>
               </Card.Body>
             </Card>
-            <Card className="shadow-sm min-w-320 snap-start">
+            <Card className="card-pro card-service min-w-320 snap-start">
               <Card.Body>
                 <div className="text-primary mb-2">
                   <Git size={24} />
@@ -351,25 +358,25 @@ function Home() {
               Agenda una llamada
             </Button>
           </div>
+          </RevealOnScroll>
         </Container>
       </div>
-      <Container className="py-5">
-        <div className="d-flex align-items-center justify-content-between mb-3">
-          <h2 className="mb-0">Proyectos recientes</h2>
+      <div className="section-white">
+      <Container>
+        <RevealOnScroll>
+        <div className="d-flex align-items-center justify-content-between mb-4">
+          <h2 className="section-title mb-0">Proyectos recientes</h2>
           <Button
             as={Link}
             to="/proyectos"
-            variant="outline-secondary"
+            variant="outline-primary"
             size="sm"
           >
             Ver todos
           </Button>
         </div>
-        {loading && (
-          <div className="d-flex align-items-center gap-2">
-            <Spinner animation="border" size="sm" /> Cargando…
-          </div>
-        )}
+        </RevealOnScroll>
+        {loading && <ProjectSkeletonGrid count={6} />}
         {error && (
           <Alert variant="danger" className="mb-3">
             {error}
@@ -379,26 +386,27 @@ function Home() {
           <Alert variant="secondary">Aún no hay proyectos publicados.</Alert>
         )}
         <Row className="g-4">
-          {items.map((p) => {
+          {items.map((p, index) => {
             const firstImg = p?.imagenes?.[0]?.url;
             const imgSrc = assetUrl(firstImg);
             return (
               <Col key={p.id} md={6} lg={4}>
+                <RevealOnScroll delay={Math.min(index * 0.1, 0.3)} className="h-100">
                 <Card
                   as={Link}
                   to={`/proyectos/${p.id}`}
-                  className="h-100 shadow-sm text-reset text-decoration-none"
+                  className="h-100 card-pro text-reset text-decoration-none"
                 >
 
 
-                  <ProjectImage src={imgSrc} alt={p.titulo} />
+                  <ProjectImage src={imgSrc} alt={p.titulo} priority={index === 0} />
 
 
 
                   <Card.Body className="d-flex flex-column">
                     <div className="d-flex align-items-start justify-content-between mb-1">
                       <Card.Title className="mb-0">{p.titulo}</Card.Title>
-                      {p.github && <Badge bg="dark">Repo</Badge>}
+                      {p.github && <Badge bg="primary" className="opacity-75">Repo</Badge>}
                     </div>
                     {p.descripcion && (
                       <Card.Text className="text-secondary line-clamp-3">
@@ -433,11 +441,13 @@ function Home() {
                     </div>
                   </Card.Body>
                 </Card>
+                </RevealOnScroll>
               </Col>
             );
           })}
         </Row>
       </Container>
+      </div>
     </>
   );
 }

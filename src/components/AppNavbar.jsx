@@ -1,5 +1,6 @@
 import { Navbar, Nav, Container, Button } from 'react-bootstrap';
 import { NavLink, useNavigate } from 'react-router-dom';
+import profile from '../profile.config';
 
 function AppNavbar() {
   const navigate = useNavigate();
@@ -15,17 +16,23 @@ function AppNavbar() {
   };
 
   return (
-    <Navbar bg="white" expand="lg" fixed="top" className="border-bottom shadow-sm">
+    <Navbar expand="lg" fixed="top" className="app-navbar">
       <Container>
-        <Navbar.Brand as={NavLink} to="/">Mi Blog</Navbar.Brand>
+        <Navbar.Brand as={NavLink} to="/" className="app-navbar__brand">
+          <span className="app-navbar__brand-name">{profile.displayName}</span>
+          <span className="app-navbar__brand-sub">Data · IA · Desarrollo</span>
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="main-nav" />
         <Navbar.Collapse id="main-nav">
-          <Nav className="me-auto">
+          <Nav className="me-auto app-navbar__links">
             <Nav.Link as={NavLink} to="/" end>
               Inicio
             </Nav.Link>
             <Nav.Link as={NavLink} to="/proyectos">
               Proyectos
+            </Nav.Link>
+            <Nav.Link as={NavLink} to="/articulos">
+              Artículos
             </Nav.Link>
             <Nav.Link as={NavLink} to="/contacto">
               Contacto
@@ -39,15 +46,15 @@ function AppNavbar() {
           <Nav className="gap-2">
             {!isLogged ? (
               <>
-                <Button variant="outline-primary" onClick={() => navigate('/registrar')}>
+                <Button variant="outline-primary" size="sm" onClick={() => navigate('/registrar')}>
                   Registrarse
                 </Button>
-                <Button variant="primary" onClick={() => navigate('/login')}>
+                <Button variant="primary" size="sm" onClick={() => navigate('/login')}>
                   Iniciar sesión
                 </Button>
               </>
             ) : (
-              <Button variant="outline-danger" onClick={logout}>
+              <Button variant="outline-danger" size="sm" onClick={logout}>
                 Salir
               </Button>
             )}

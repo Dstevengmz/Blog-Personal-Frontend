@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import Proyectos from "./pages/Proyectos";
 import ProyectoDetalle from "./pages/ProyectoDetalle";
 import Articulos from "./pages/Articulos";
+import ArticuloDetalle from "./pages/ArticuloDetalle";
 import Login from "./pages/Login";
 import Registrar from "./pages/Registrar";
 import NotFound from "./pages/NotFound";
@@ -25,6 +26,7 @@ function App() {
           <Route path="/proyectos" element={<Proyectos />} />
           <Route path="/proyectos/:id" element={<ProyectoDetalle />} />
           <Route path="/articulos" element={<Articulos />} />
+          <Route path="/articulos/:id" element={<ArticuloDetalle />} />
           <Route path="/login" element={<Login />} />
           <Route path="/registrar" element={<Registrar />} />
           <Route path="/contacto" element={<Contacto />} />
