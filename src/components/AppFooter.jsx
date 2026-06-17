@@ -1,12 +1,11 @@
 import { Container } from 'react-bootstrap';
 import { FaGithub, FaLinkedin, FaInstagram } from 'react-icons/fa';
-import profile from '../profile.config';
 
 function AppFooter() {
   return (
     <footer className="app-footer">
       <Container className="app-footer__inner">
-        <p className="app-footer__name">{profile.displayName}</p>
+        <p className="app-footer__name">Darwin Gomez</p>
         <p className="app-footer__tagline">
           Análisis de datos · Inteligencia artificial · Desarrollo de software
         </p>
@@ -25,6 +24,7 @@ function AppFooter() {
             rel="noopener noreferrer"
             aria-label="LinkedIn"
           >
+            
             <FaLinkedin size={20} />
           </a>
           <a
