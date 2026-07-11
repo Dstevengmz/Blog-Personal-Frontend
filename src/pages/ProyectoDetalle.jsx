@@ -4,7 +4,7 @@ import { Container, Row, Col, Badge, Button, Carousel, Alert, Card, Form, Spinne
 import { obtenerProyectoPorId } from "../services/ProyectosService";
 import { listarComentarios, crearComentario } from "../services/ComentariosService";
 import { confirmComentar, alertComentarioPublicado, alertError } from "../assets/js";
-import { assetUrl } from "../lib/assetUrl";
+import { assetUrl, cloudinaryTransform } from "../lib/assetUrl";
 import ProjectSkeletonGrid from "../components/ProjectSkeletonGrid";
 import RevealOnScroll from "../components/RevealOnScroll";
 
@@ -67,7 +67,7 @@ function ProyectoDetalle() {
     );
   }
 
-  const images = (item.imagenes || []).map((img) => ({ ...img, src: assetUrl(img.url) }));
+  const images = (item.imagenes || []).map((img) => ({ ...img, src: cloudinaryTransform(assetUrl(img.url), 'w_1000,c_limit,q_auto:good,f_auto') }));
 
   return (
     <>

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Container, Badge, Alert, Spinner } from "react-bootstrap";
 import { obtenerArticuloPorId } from "../services/ArticulosService";
-import { assetUrl } from "../lib/assetUrl";
+import { assetUrl, cloudinaryTransform } from "../lib/assetUrl";
 import RevealOnScroll from "../components/RevealOnScroll";
 
 function ArticuloDetalle() {
@@ -64,7 +64,7 @@ function ArticuloDetalle() {
   }
 
   const stripTags = (str) => (str ? str.replace(/<[^>]+>/g, "") : "");
-  const imgSrc = assetUrl(item.imagen || item.imagenes?.[0]?.url);
+  const imgSrc = cloudinaryTransform(assetUrl(item.imagen || item.imagenes?.[0]?.url), 'w_1000,c_limit,q_auto:good,f_auto');
   const fecha = item.createdAt
     ? new Date(item.createdAt).toLocaleDateString("es-CO", {
         year: "numeric",

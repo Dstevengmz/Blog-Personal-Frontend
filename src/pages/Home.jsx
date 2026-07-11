@@ -14,7 +14,7 @@ import ProjectSkeletonGrid from "../components/ProjectSkeletonGrid";
 
 import { Link } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
-import { assetUrl } from "../lib/assetUrl";
+import { assetUrl, cloudinaryTransform } from "../lib/assetUrl";
 import profile from "../profile.config";
 import { listarProyectos } from "../services/ProyectosService";
 import { CodeSlash, Server, Cloud } from "react-bootstrap-icons";
@@ -70,20 +70,23 @@ function Home() {
                 Disponible para oportunidades
               </Badge>
               <h1 className="fw-bold lh-sm mb-3 section-title">
-                Desarrollador Full&nbsp;Stack que convierte ideas en productos
-                listos para producción
+                Desarrollador Full&nbsp;Stack y Analista de Datos enfocado en
+                crear soluciones web funcionales, escalables y con apoyo de IA
               </h1>
               <p className="lead text-secondary mb-3">
-                Soy {profile.displayName},{" "}
-                {profile.role}. Construyo aplicaciones web y móviles con
-                <strong> React</strong>, <strong>Node.js</strong> y{" "}
-                <strong>Python/Django</strong>, cuidando rendimiento, DX y
-                calidad.
+                Soy {profile.displayName}, {profile.role}. Construyo
+                aplicaciones web, móviles y soluciones orientadas a datos usando{" "}
+                <strong>React</strong>, <strong>Node.js</strong>,{" "}
+                <strong>Python</strong>, <strong>MySQL</strong> y herramientas
+                de IA. Me enfoco en transformar necesidades reales en sistemas
+                funcionales, organizados y listos para ser probados en escenarios
+                reales.
               </p>
               <ul className="text-secondary mb-4 ps-3">
-                <li>Frontend: React, Vite, Bootstrap</li>
-                <li>Backend: Node.js (Express), Python/Django</li>
-                <li>Datos: MySQL, PostgreSQL, MongoDB • CI/CD y Docker</li>
+                <li>Frontend: React, Vite, Tailwind CSS, Bootstrap</li>
+                <li>Backend: Node.js, Express, Python, Flask, Django</li>
+                <li>Datos: MySQL, PostgreSQL, MongoDB, BigQuery</li>
+                <li>Herramientas: Git, Docker, Postman, Sequelize, JWT, Looker Studio</li>
               </ul>
               <div className="d-flex flex-wrap gap-3">
                 <Button as={Link} to="/contacto" variant="primary" size="lg">
@@ -111,7 +114,7 @@ function Home() {
             </Col>
             <Col md={5} lg={5} className="text-center text-md-end">
               <img
-                src={profile.avatarUrl}
+                src={cloudinaryTransform(profile.avatarUrl, 'w_700,c_limit,q_auto:good,f_auto')}
                 alt={`Foto de ${profile.name}`}
                 className="img-fluid rounded-4 shadow max-w-380 object-cover hover-lift animate-float"
                 onError={(e) => { e.currentTarget.style.display = "none"; }}
@@ -130,17 +133,21 @@ function Home() {
                   <Accordion.Header>Sobre mí</Accordion.Header>
                   <Accordion.Body>
                     <p>
-                      Soy ingeniero informático con experiencia en desarrollo
-                      web, aplicaciones móviles y gestión de bases de datos. Me
-                      destaco por ofrecer soluciones eficientes y de alta
-                      calidad, resolviendo problemas con rapidez y adaptándome a
-                      nuevas tecnologías.
+                      Soy una persona orientada al aprendizaje continuo, con
+                      interés en el desarrollo full-stack, análisis de datos e
+                      inteligencia artificial aplicada. Me gusta construir
+                      soluciones prácticas, entender el problema antes de
+                      programar y validar que cada funcionalidad realmente aporte
+                      valor al usuario final.
                     </p>
                     <p>
-                      Actualmente, estoy complementando mi formación en Análisis
-                      y Desarrollo de Software en el SENA y busco oportunidades
-                      para aplicar mis conocimientos en proyectos desafiantes
-                      que me permitan seguir creciendo profesionalmente.
+                      He trabajado en proyectos académicos, personales y
+                      empresariales relacionados con software, dashboards,
+                      automatización, IoT, bases de datos y aplicaciones web.
+                      Actualmente estoy fortaleciendo mi perfil como desarrollador
+                      y analista de datos, integrando herramientas modernas de IA
+                      para acelerar procesos de desarrollo sin perder criterio
+                      técnico ni control de calidad.
                     </p>
                   </Accordion.Body>
                 </Accordion.Item>
@@ -149,11 +156,13 @@ function Home() {
                   <Accordion.Header>Mi forma de trabajar</Accordion.Header>
                   <Accordion.Body>
                     <p>
-                      Abordo los retos con un enfoque creativo y pragmático,
-                      priorizando soluciones funcionales y efectivas. Me adapto
-                      con facilidad a diferentes entornos de trabajo y disfruto
-                      colaborar con equipos para cumplir objetivos ambiciosos,
-                      cuidando siempre la calidad y los detalles.
+                      Trabajo de forma organizada, dividiendo los proyectos por
+                      módulos, fases y pruebas. Me enfoco en entender primero la
+                      necesidad del usuario, definir la lógica del negocio,
+                      construir funcionalidades claras y validar los resultados
+                      con pruebas reales. Uso Git, documentación, APIs, bases de
+                      datos y herramientas de IA como apoyo para mejorar
+                      productividad y calidad.
                     </p>
                   </Accordion.Body>
                 </Accordion.Item>
@@ -162,12 +171,12 @@ function Home() {
                   <Accordion.Header>Objetivos y metas</Accordion.Header>
                   <Accordion.Body>
                     <p>
-                      Mi objetivo es consolidar mi carrera en el sector
-                      tecnológico, integrándome en una empresa sólida donde
-                      pueda aportar desde el primer día y seguir desarrollándome
-                      profesionalmente. A largo plazo, aspiro a liderar
-                      proyectos innovadores que generen un impacto real y
-                      contribuyan a la transformación digital.
+                      Mi objetivo es seguir creciendo como Desarrollador Full
+                      Stack y Analista de Datos, participando en proyectos donde
+                      pueda aplicar desarrollo web, automatización, inteligencia
+                      artificial y análisis de información para resolver problemas
+                      reales. Busco oportunidades donde pueda aprender, aportar
+                      valor y fortalecer mis habilidades técnicas y profesionales.
                     </p>
                   </Accordion.Body>
                 </Accordion.Item>

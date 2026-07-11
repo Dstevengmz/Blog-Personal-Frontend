@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Row, Col, Badge, Alert } from "react-bootstrap";
-import { assetUrl } from "../lib/assetUrl";
+import { assetUrl, cloudinaryTransform } from "../lib/assetUrl";
 import ProjectSkeletonGrid from "../components/ProjectSkeletonGrid";
 import RevealOnScroll from "../components/RevealOnScroll";
 import { listarArticulos } from "../services/ArticulosService";
@@ -56,7 +56,7 @@ function Articulos() {
           {!loading && !error && items.length > 0 && (
             <Row className="g-4">
               {items.map((a, index) => {
-                const imgSrc = assetUrl(a.imagen || a.imagenes?.[0]?.url);
+                const imgSrc = cloudinaryTransform(assetUrl(a.imagen || a.imagenes?.[0]?.url), 'w_500,c_limit,q_auto:good,f_auto');
                 const rawText = a.contenido
                   ? a.contenido.replace(/<[^>]+>/g, "").trim()
                   : "";
