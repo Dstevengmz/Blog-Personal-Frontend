@@ -12,13 +12,15 @@ function ArticuloDetalle() {
   const [error, setError] = useState("");
 
   useEffect(() => {
+    const controller = new AbortController();
     const run = async () => {
       setLoading(true);
       setError("");
       try {
-        const data = await obtenerArticuloPorId(id);
+        const data = await obtenerArticuloPorId(id, { signal: controller.signal });
         setItem(data);
       } catch (e) {
+        if (e?.code === "ERR_CANCELED") return;
         if (e?.response?.status === 404) {
           setItem(null);
           setError("404");
@@ -26,11 +28,16 @@ function ArticuloDetalle() {
           setError(e?.response?.data?.error || "No se pudo cargar el artículo");
         }
       } finally {
-        setLoading(false);
+        if (!controller.signal.aborted) setLoading(false);
       }
     };
     run();
+    return () => controller.abort();
   }, [id]);
+
+  useEffect(() => {
+    if (item?.titulo) document.title = `${item.titulo} | BlogDarwin`;
+  }, [item]);
 
   if (loading) {
     return (

@@ -1,55 +1,102 @@
-import { Navbar, Nav, Container, Button } from 'react-bootstrap';
-import { NavLink, useNavigate } from 'react-router-dom';
-import profile from '../profile.config';
+import { useEffect, useState } from "react";
+import { Button, Container, Nav, Navbar } from "react-bootstrap";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import profile from "../profile.config";
+
+const homeSections = ["inicio", "sobre-mi", "habilidades"];
 
 function AppNavbar() {
+  const location = useLocation();
   const navigate = useNavigate();
-  const isLogged = !!localStorage.getItem('token');
-  const userStr = localStorage.getItem('user');
-  const user = userStr ? JSON.parse(userStr) : null;
-  const isAdmin = user?.rol === 'admin';
+  const [expanded, setExpanded] = useState(false);
+  const [activeSection, setActiveSection] = useState("inicio");
+  const isLogged = Boolean(localStorage.getItem("token"));
+  let user = null;
 
+  try {
+    user = JSON.parse(localStorage.getItem("user") || "null");
+  } catch {
+    user = null;
+  }
+
+  useEffect(() => {
+    setExpanded(false);
+    if (location.pathname !== "/") return undefined;
+
+    const updateActiveSection = () => {
+      const offset = window.scrollY + 140;
+      const visible = homeSections
+        .map((id) => document.getElementById(id))
+        .filter(Boolean)
+        .filter((element) => element.offsetTop <= offset)
+        .at(-1);
+      setActiveSection(visible?.id || "inicio");
+    };
+
+    updateActiveSection();
+    window.addEventListener("scroll", updateActiveSection, { passive: true });
+    return () => window.removeEventListener("scroll", updateActiveSection);
+  }, [location.pathname, location.hash]);
+
+  const closeMenu = () => setExpanded(false);
   const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    navigate('/login');
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    closeMenu();
+    navigate("/login");
   };
 
+  const homeLinkClass = (section) =>
+    location.pathname === "/" && activeSection === section ? "active" : "";
+
   return (
-    <Navbar expand="lg" fixed="top" className="app-navbar">
+    <Navbar
+      expand="lg"
+      fixed="top"
+      expanded={expanded}
+      onToggle={setExpanded}
+      className="app-navbar"
+      aria-label="Navegación principal"
+    >
       <Container>
-        <Navbar.Brand as={NavLink} to="/" className="app-navbar__brand">
+        <Navbar.Brand as={NavLink} to="/" onClick={closeMenu} className="app-navbar__brand">
           <span className="app-navbar__brand-name">{profile.displayName}</span>
-          <span className="app-navbar__brand-sub">Data · IA · Desarrollo</span>
+          <span className="app-navbar__brand-sub">Desarrollador Full Stack</span>
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls="main-nav" />
+        <Navbar.Toggle aria-controls="main-nav" aria-label={expanded ? "Cerrar menú" : "Abrir menú"} />
         <Navbar.Collapse id="main-nav">
           <Nav className="me-auto app-navbar__links">
-            <Nav.Link as={NavLink} to="/" end>
+            <Nav.Link as={Link} to="/#inicio" onClick={closeMenu} className={homeLinkClass("inicio")}>
               Inicio
             </Nav.Link>
-            <Nav.Link as={NavLink} to="/proyectos">
+            <Nav.Link as={Link} to="/#sobre-mi" onClick={closeMenu} className={homeLinkClass("sobre-mi")}>
+              Sobre mí
+            </Nav.Link>
+            <Nav.Link as={NavLink} to="/proyectos" onClick={closeMenu}>
               Proyectos
             </Nav.Link>
-            {/* <Nav.Link as={NavLink} to="/articulos">
+            <Nav.Link as={Link} to="/#habilidades" onClick={closeMenu} className={homeLinkClass("habilidades")}>
+              Habilidades
+            </Nav.Link>
+            <Nav.Link as={NavLink} to="/articulos" onClick={closeMenu}>
               Artículos
-            </Nav.Link> */}
-            <Nav.Link as={NavLink} to="/contacto">
+            </Nav.Link>
+            <Nav.Link as={NavLink} to="/contacto" onClick={closeMenu}>
               Contacto
             </Nav.Link>
-            {isAdmin && (
-              <Nav.Link as={NavLink} to="/admin">
+            {user?.rol === "admin" && (
+              <Nav.Link as={NavLink} to="/admin" onClick={closeMenu}>
                 Admin
               </Nav.Link>
             )}
           </Nav>
-          <Nav className="gap-2">
+          <Nav className="app-navbar__actions">
             {!isLogged ? (
               <>
-                <Button variant="outline-primary" size="sm" onClick={() => navigate('/registrar')}>
+                <Button as={NavLink} to="/registrar" variant="outline-primary" size="sm" onClick={closeMenu}>
                   Registrarse
                 </Button>
-                <Button variant="primary" size="sm" onClick={() => navigate('/login')}>
+                <Button as={NavLink} to="/login" variant="primary" size="sm" onClick={closeMenu}>
                   Iniciar sesión
                 </Button>
               </>
@@ -64,4 +111,5 @@ function AppNavbar() {
     </Navbar>
   );
 }
+
 export default AppNavbar;

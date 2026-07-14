@@ -1,7 +1,7 @@
 import api from "../lib/api";
 
-export async function listarComentarios(idProyecto) {
-  const { data } = await api.get(`api/proyecto/${idProyecto}/comentarios`);
+export async function listarComentarios(idProyecto, options = {}) {
+  const { data } = await api.get(`api/proyecto/${idProyecto}/comentarios`, { signal: options.signal });
   return data;
 }
 

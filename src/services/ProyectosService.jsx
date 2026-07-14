@@ -5,13 +5,13 @@ export async function crearProyecto(payload) {
 	return data;
 }
 
-export async function listarProyectos(tipo, limit) {
+export async function listarProyectos(tipo, limit, options = {}) {
   const params = new URLSearchParams();
   if (tipo) params.set('tipo', tipo);
   if (limit) params.set('limit', limit);
   const query = params.toString();
   const url = query ? `api/listarproyectos?${query}` : "api/listarproyectos";
-  const { data } = await api.get(url);
+  const { data } = await api.get(url, { signal: options.signal });
   return data;
 }
 export async function eliminarProyecto(id) {
@@ -30,8 +30,8 @@ export async function crearProyectoConImagenes(campos = {}, imagenes = []) {
 	});
 	return data;
 }
-export async function obtenerProyectoPorId(id) {
-  const { data } = await api.get(`api/buscarproyecto/${id}`);
+export async function obtenerProyectoPorId(id, options = {}) {
+  const { data } = await api.get(`api/buscarproyecto/${id}`, { signal: options.signal });
   return data;
 }
 

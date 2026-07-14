@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Container, Row, Col, Badge, Alert } from "react-bootstrap";
 import { assetUrl, cloudinaryTransform } from "../lib/assetUrl";
 import ProjectSkeletonGrid from "../components/ProjectSkeletonGrid";
@@ -7,25 +7,28 @@ import RevealOnScroll from "../components/RevealOnScroll";
 import { listarArticulos } from "../services/ArticulosService";
 
 function Articulos() {
-  const navigate = useNavigate();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
+    const controller = new AbortController();
     const run = async () => {
       setLoading(true);
       setError("");
       try {
-        const data = await listarArticulos();
+        const data = await listarArticulos(undefined, { signal: controller.signal });
         setItems(Array.isArray(data) ? data : []);
       } catch (e) {
-        setError(e?.response?.data?.error || "No se pudieron cargar los artículos");
+        if (e?.code !== "ERR_CANCELED") {
+          setError(e?.response?.data?.error || "No se pudieron cargar los artículos");
+        }
       } finally {
-        setLoading(false);
+        if (!controller.signal.aborted) setLoading(false);
       }
     };
     run();
+    return () => controller.abort();
   }, []);
 
   return (
@@ -77,10 +80,8 @@ function Articulos() {
                 return (
                   <Col key={a.id} md={6} lg={4}>
                     <RevealOnScroll delay={Math.min(index * 0.1, 0.3)} className="h-100 d-flex flex-column">
-                    <div
-                      className="card-pro h-100 d-flex flex-column"
-                      onClick={() => navigate(`/articulos/${a.id}`)}
-                    >
+                    <article className="card-pro h-100 d-flex flex-column article-card">
+                      <Link className="article-card__link" to={`/articulos/${a.id}`} aria-label={`Leer ${a.titulo}`}>
                       {imgSrc && (
                         <img
                           src={imgSrc}
@@ -123,7 +124,8 @@ function Articulos() {
                           </div>
                         )}
                       </div>
-                    </div>
+                      </Link>
+                    </article>
                     </RevealOnScroll>
                   </Col>
                 );
