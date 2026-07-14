@@ -78,9 +78,6 @@ function AppNavbar() {
             <Nav.Link as={Link} to="/#habilidades" onClick={closeMenu} className={homeLinkClass("habilidades")}>
               Habilidades
             </Nav.Link>
-            <Nav.Link as={NavLink} to="/articulos" onClick={closeMenu}>
-              Artículos
-            </Nav.Link>
             <Nav.Link as={NavLink} to="/contacto" onClick={closeMenu}>
               Contacto
             </Nav.Link>
