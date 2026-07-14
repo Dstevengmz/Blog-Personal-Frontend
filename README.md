@@ -66,7 +66,7 @@ Copiar los archivos de ejemplo, sin registrar archivos `.env` ni valores secreto
 | `DB_HOST`, `DB_USER`, `DB_PASS`, `DB_NAME`, `DB_DIALECT` | Conexión a MySQL mediante Sequelize. |
 | `ADMIN_NAME`, `ADMIN_EMAIL`, `ADMIN_PASSWORD` | Datos para el seeder administrativo. |
 | `RESEND_API_KEY` | Clave privada de la API de Resend. |
-| `RESEND_FROM` | Remitente autorizado; durante pruebas puede usarse `BlogDarwin <onboarding@resend.dev>`. |
+| `RESEND_FROM` | Remitente autorizado; durante pruebas puede usarse `Darwin Steven Gómez <onboarding@resend.dev>`. |
 | `CONTACT_EMAIL` | Destinatario de los mensajes. |
 | `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` | Almacenamiento de imágenes. |
 
