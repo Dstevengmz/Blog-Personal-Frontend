@@ -24,7 +24,7 @@ Portafolio profesional de **Darwin Steven Gómez**, Desarrollador de Software Fu
 - Sequelize 6 y MySQL.
 - JWT y bcrypt para autenticación.
 - Multer y Cloudinary para imágenes.
-- Nodemailer para contacto.
+- API HTTPS de Resend para contacto.
 - `express-rate-limit` para limitar envíos del formulario.
 
 ## Requisitos
@@ -33,7 +33,7 @@ Portafolio profesional de **Darwin Steven Gómez**, Desarrollador de Software Fu
 - npm.
 - Una instancia de MySQL.
 - Una cuenta de Cloudinary para la gestión de imágenes.
-- Un servidor SMTP para el formulario de contacto.
+- Una cuenta de Resend para el formulario de contacto.
 
 ## Instalación
 
@@ -65,7 +65,8 @@ Copiar los archivos de ejemplo, sin registrar archivos `.env` ni valores secreto
 | `JWT_SECRET` | Firma de tokens; debe ser extensa y privada. |
 | `DB_HOST`, `DB_USER`, `DB_PASS`, `DB_NAME`, `DB_DIALECT` | Conexión a MySQL mediante Sequelize. |
 | `ADMIN_NAME`, `ADMIN_EMAIL`, `ADMIN_PASSWORD` | Datos para el seeder administrativo. |
-| `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS` | Transporte SMTP del formulario. |
+| `RESEND_API_KEY` | Clave privada de la API de Resend. |
+| `RESEND_FROM` | Remitente autorizado; durante pruebas puede usarse `BlogDarwin <onboarding@resend.dev>`. |
 | `CONTACT_EMAIL` | Destinatario de los mensajes. |
 | `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` | Almacenamiento de imágenes. |
 
