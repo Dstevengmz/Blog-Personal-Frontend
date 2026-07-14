@@ -13,7 +13,6 @@ function AppFooter() {
         </p>
         <nav className="app-footer__links" aria-label="Enlaces del pie de página">
           <Link to="/proyectos">Proyectos</Link>
-          <Link to="/articulos">Artículos</Link>
           <Link to="/contacto">Contacto</Link>
         </nav>
         <div className="app-footer__icons">
