@@ -16,6 +16,7 @@ import { alertComentarioPublicado, alertError, confirmComentar } from "../assets
 import ProjectSkeletonGrid from "../components/ProjectSkeletonGrid";
 import RevealOnScroll from "../components/RevealOnScroll";
 import { assetUrl, cloudinaryTransform } from "../lib/assetUrl";
+import { getStoredToken } from "../lib/authStorage";
 import { projectCategory, projectTechnologies, validExternalUrl } from "../lib/projects";
 import profile from "../profile.config";
 import { crearComentario, listarComentarios } from "../services/ComentariosService";
@@ -247,7 +248,7 @@ function ProyectoDetalle() {
               </Card>
             ))}
 
-            {localStorage.getItem("token") ? (
+            {getStoredToken() ? (
               <Card className="comment-form mt-4">
                 <Card.Body>
                   <Form onSubmit={submitComment}>

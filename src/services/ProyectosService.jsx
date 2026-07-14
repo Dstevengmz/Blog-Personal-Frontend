@@ -52,17 +52,12 @@ export async function editarProyecto(id, campos, imagenes = [], imagenesEliminar
     formData.append("imagenesEliminar", JSON.stringify(img));
   });
 
-  try {
-    const { data } = await api.put(`api/editarproyecto/${id}`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    return data;
-  } catch (error) {
-    console.error("Error al actualizar el proyecto", error);
-    throw error;
-  }
+  const { data } = await api.put(`api/editarproyecto/${id}`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return data;
 }
 
 

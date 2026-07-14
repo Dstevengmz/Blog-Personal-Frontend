@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, Container, Nav, Navbar } from "react-bootstrap";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import profile from "../profile.config";
+import { clearAuthSession, getStoredToken, getStoredUser } from "../lib/authStorage";
 
 const homeSections = ["inicio", "sobre-mi", "habilidades"];
 
@@ -10,14 +11,8 @@ function AppNavbar() {
   const navigate = useNavigate();
   const [expanded, setExpanded] = useState(false);
   const [activeSection, setActiveSection] = useState("inicio");
-  const isLogged = Boolean(localStorage.getItem("token"));
-  let user = null;
-
-  try {
-    user = JSON.parse(localStorage.getItem("user") || "null");
-  } catch {
-    user = null;
-  }
+  const user = getStoredUser();
+  const isLogged = Boolean(getStoredToken() && user);
 
   useEffect(() => {
     setExpanded(false);
@@ -40,8 +35,7 @@ function AppNavbar() {
 
   const closeMenu = () => setExpanded(false);
   const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    clearAuthSession();
     closeMenu();
     navigate("/login");
   };

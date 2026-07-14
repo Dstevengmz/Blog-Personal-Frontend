@@ -14,6 +14,7 @@ import {
 import { Eye, EyeSlash } from "react-bootstrap-icons";
 import { iniciarSesion } from "../services/Loginservice";
 import { alertLoginSuccess } from "../assets/js";
+import { getStoredToken, getStoredUser, saveAuthSession } from "../lib/authStorage";
 
 function Login() {
   const navigate = useNavigate();
@@ -25,9 +26,8 @@ function Login() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const userStr = localStorage.getItem("user");
-    const user = userStr ? JSON.parse(userStr) : null;
+    const token = getStoredToken();
+    const user = getStoredUser();
     if (token && user) {
       navigate(user.rol === "admin" ? "/admin" : "/");
     }
@@ -46,8 +46,7 @@ function Login() {
       setLoading(true);
       const { token, user } = await iniciarSesion({ email, password });
       if (!token) throw new Error("Sin token en la respuesta");
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(user));
+      saveAuthSession(token, user);
       alertLoginSuccess(user);
       navigate(user?.rol === "admin" ? "/admin" : "/");
     } catch (err) {

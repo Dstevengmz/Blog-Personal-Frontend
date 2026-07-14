@@ -46,9 +46,8 @@ const EditarProyecto = () => {
           tipo: data.tipo,
         });
         setImagenes(Array.isArray(data.imagenes) ? data.imagenes : []);
-      } catch (error) {
+      } catch {
         setError("Error al cargar el proyecto");
-        console.error(error);
       } finally {
         setLoading(false);
       }
@@ -82,9 +81,8 @@ const EditarProyecto = () => {
         alert("Proyecto actualizado correctamente");
         navigate("/admin/proyectos");
       }
-    } catch (error) {
-      console.error("Error al actualizar el proyectossss:", error);
-      setSaveError("Hubo un error al actualizar el proyecto", error);
+    } catch {
+      setSaveError("Hubo un error al actualizar el proyecto");
     }
   };
 

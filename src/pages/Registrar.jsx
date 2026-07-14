@@ -15,9 +15,19 @@ function Registrar() {
     e.preventDefault();
     setError("");
     setSuccess("");
+    const normalizedName = nombre.trim();
+    const normalizedEmail = email.trim().toLowerCase();
+    if (normalizedName.length < 2) {
+      setError("El nombre debe tener al menos 2 caracteres.");
+      return;
+    }
+    if (password.length < 8 || password.length > 128) {
+      setError("La contraseña debe tener entre 8 y 128 caracteres.");
+      return;
+    }
     setLoading(true);
     try {
-      await registrarUsuario({ nombre, email, password });
+      await registrarUsuario({ nombre: normalizedName, email: normalizedEmail, password });
       setSuccess("Usuario registrado exitosamente");
       setNombre("");
       setEmail("");
@@ -43,7 +53,7 @@ function Registrar() {
               <Form onSubmit={onSubmit}>
                 <Form.Group className="mb-3" controlId="regNombre">
                   <Form.Label>Nombre</Form.Label>
-                  <Form.Control value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder="Tu nombre" required />
+                  <Form.Control value={nombre} onChange={(e) => setNombre(e.target.value)} placeholder="Tu nombre" minLength={2} maxLength={80} required />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="regEmail">
                   <Form.Label>Email</Form.Label>
@@ -52,7 +62,7 @@ function Registrar() {
                 <Form.Group className="mb-4" controlId="regPassword">
                   <Form.Label>Contraseña</Form.Label>
                   <InputGroup>
-                    <Form.Control type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="********" required autoComplete="new-password" />
+                    <Form.Control type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="********" minLength={8} maxLength={128} required autoComplete="new-password" />
                     <Button variant="outline-secondary" type="button" onClick={() => setShowPassword((v) => !v)}>
                       {showPassword ? "Ocultar" : "Mostrar"}
                     </Button>

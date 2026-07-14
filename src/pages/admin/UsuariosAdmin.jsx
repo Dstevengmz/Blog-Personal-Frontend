@@ -11,7 +11,7 @@ function UsuariosAdmin() {
     setLoading(true);
     setError("");
     try {
-      const { data } = await api.get("/usuario/listarusuarios");
+      const { data } = await api.get("api/listarusuarios");
       setRows(data || []);
     } catch {
       setError("Error al cargar usuarios");

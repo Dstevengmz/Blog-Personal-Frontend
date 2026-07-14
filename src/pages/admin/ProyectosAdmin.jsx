@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { getStoredUser } from "../../lib/authStorage";
 import {
   Table,
   Button,
@@ -55,13 +56,11 @@ function ProyectosAdmin() {
     const mensajesAlertas = new MensajesAlertas();
     await mensajesAlertas.confirmarEliminacion(async () => {
       try {
-        const result = await eliminarProyecto(id);
-        console.log(result);
+        await eliminarProyecto(id);
         setRows((prevRows) =>
           prevRows.filter((proyecto) => proyecto.id !== id)
         );
-      } catch (error) {
-        console.error("Error al eliminar el proyecto:", error);
+      } catch {
         alert("Hubo un error al eliminar el proyecto. Intenta nuevamente.");
       }
     });
@@ -88,8 +87,7 @@ function ProyectosAdmin() {
               e.preventDefault();
               setCreateError("");
               try {
-                const userStr = localStorage.getItem("user");
-                const user = userStr ? JSON.parse(userStr) : null;
+                const user = getStoredUser();
                 const campos = { ...form, idUsuario: user?.id };
                 if (files && files.length > 0) {
                   await crearProyectoConImagenes(campos, files);

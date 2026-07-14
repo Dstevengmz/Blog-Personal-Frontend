@@ -56,6 +56,8 @@ Copiar los archivos de ejemplo, sin registrar archivos `.env` ni valores secreto
 | --- | --- |
 | `VITE_API_URL` | URL base pública de la API, con la barra final adecuada para resolver las rutas `api/...`. |
 
+Las variables con prefijo `VITE_` quedan incorporadas al bundle público. Por esta razón, el frontend solo contiene la URL pública de la API y nunca claves de Resend, JWT, base de datos o Cloudinary.
+
 ### Backend (`backend/.env`)
 
 | Variable | Uso |
@@ -157,6 +159,18 @@ Los listados implementan estados de carga, error con reintento, lista vacía, da
 - Autenticación y administración protegida por roles.
 - SEO técnico: canonical, Open Graph, Twitter Card, `Person` JSON-LD, `robots.txt` y `sitemap.xml`.
 - Rutas cargadas de forma diferida para reducir el JavaScript inicial.
+
+## Autenticación y seguridad del cliente
+
+- `/login` inicia la sesión y conserva únicamente el JWT y los datos públicos del usuario.
+- `/recuperar-contrasena` solicita el correo sin revelar desde la interfaz si existe una cuenta.
+- `/restablecer-contrasena/:token` valida la contraseña y consume el enlace recibido por correo.
+- `authStorage.js` centraliza la lectura, escritura y eliminación de la sesión y descarta datos corruptos.
+- `ProtectedRoute` controla la navegación visible, pero la autorización definitiva siempre se realiza en el backend.
+- React escapa el contenido dinámico y no se utiliza `dangerouslySetInnerHTML` para mostrar datos recibidos de la API.
+- Los enlaces externos se validan para aceptar únicamente HTTP o HTTPS y los enlaces en pestaña nueva usan `noopener noreferrer`.
+
+El JWT se mantiene en `localStorage`, por lo que debe evitarse cualquier ejecución de JavaScript no confiable. Una migración futura a cookies `HttpOnly`, `Secure` y `SameSite` requeriría ajustar conjuntamente el backend, CORS y la protección CSRF.
 
 ## Despliegue
 
