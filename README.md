@@ -24,8 +24,8 @@ Portafolio profesional de **Darwin Steven Gómez**, Desarrollador de Software Fu
 - Sequelize 6 y MySQL.
 - JWT y bcrypt para autenticación.
 - Multer y Cloudinary para imágenes.
-- API HTTPS de Resend para contacto.
-- `express-rate-limit` para limitar envíos del formulario.
+- API HTTPS de Resend para contacto y recuperación de contraseña.
+- `express-rate-limit` para limitar envíos del formulario e intentos de recuperación.
 
 ## Requisitos
 
@@ -33,7 +33,7 @@ Portafolio profesional de **Darwin Steven Gómez**, Desarrollador de Software Fu
 - npm.
 - Una instancia de MySQL.
 - Una cuenta de Cloudinary para la gestión de imágenes.
-- Una cuenta de Resend para el formulario de contacto.
+- Una cuenta de Resend para los correos de contacto y recuperación.
 
 ## Instalación
 
@@ -68,6 +68,7 @@ Copiar los archivos de ejemplo, sin registrar archivos `.env` ni valores secreto
 | `RESEND_API_KEY` | Clave privada de la API de Resend. |
 | `RESEND_FROM` | Remitente autorizado; durante pruebas puede usarse `Darwin Steven Gómez <onboarding@resend.dev>`. |
 | `CONTACT_EMAIL` | Destinatario de los mensajes. |
+| `FRONTEND_URL` | URL pública del frontend usada para construir el enlace de recuperación, por ejemplo `https://blogdarwin.vercel.app`. |
 | `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` | Almacenamiento de imágenes. |
 
 ## Base de datos
@@ -76,10 +77,10 @@ Con las variables del backend configuradas:
 
 ```bash
 cd backend
-npx sequelize-cli db:migrate
+npm run migrate
 ```
 
-El seeder de administrador existe en `backend/seeders/`; debe ejecutarse solo en un entorno controlado y con credenciales seguras configuradas.
+La migración de recuperación agrega el hash y la fecha de vencimiento del token a `Usuarios`. Debe ejecutarse también contra la base de datos de producción antes de utilizar esta función. El seeder de administrador existe en `backend/seeders/`; debe ejecutarse solo en un entorno controlado y con credenciales seguras configuradas.
 
 ## Ejecución local
 
@@ -98,13 +99,16 @@ npm run dev
 ## Comprobaciones y build
 
 ```bash
+cd backend
+npm test
+
 cd frontend
 npm run lint
 npm run build
 npm run preview
 ```
 
-El backend no tiene todavía una suite automatizada. Puede verificarse la sintaxis de sus archivos con `node --check` y arrancarse con `npm start` cuando la base de datos y las variables estén disponibles.
+El backend incluye pruebas unitarias para la integración de correo y las reglas del restablecimiento de contraseña.
 
 ## Estructura principal
 
@@ -149,6 +153,7 @@ Los listados implementan estados de carga, error con reintento, lista vacía, da
 - Detalle reutilizable con galería y campos opcionales de caso de estudio.
 - Artículos dinámicos.
 - Formulario de contacto validado, con honeypot y límite de frecuencia en backend.
+- Recuperación de contraseña mediante un enlace de un solo uso que vence en 30 minutos.
 - Autenticación y administración protegida por roles.
 - SEO técnico: canonical, Open Graph, Twitter Card, `Person` JSON-LD, `robots.txt` y `sitemap.xml`.
 - Rutas cargadas de forma diferida para reducir el JavaScript inicial.
@@ -156,15 +161,16 @@ Los listados implementan estados de carga, error con reintento, lista vacía, da
 ## Despliegue
 
 - El frontend incluye `vercel.json` para servir correctamente las rutas del SPA en Vercel.
-- El backend incluye un `Procfile` que ejecuta `node app.js` en plataformas compatibles.
+- El backend está desplegado en Render e incluye un `Procfile` que ejecuta `node app.js`.
 - Antes de desplegar, configurar todas las variables en el proveedor, ejecutar migraciones y definir `VITE_API_URL` con la URL pública del backend.
-- El proveedor concreto del backend y de MySQL no está documentado actualmente.
+- En Render puede configurarse el Build Command como `npm install && npm run migrate` para aplicar automáticamente las migraciones pendientes antes de cada despliegue.
+- El remitente de prueba `onboarding@resend.dev` solo permite enviar al correo propietario de la cuenta de Resend. Para recuperar cuentas con otros correos es obligatorio verificar un dominio y cambiar `RESEND_FROM` a una dirección de ese dominio.
 
 ## Mejoras pendientes
 
-- Añadir pruebas unitarias, de integración y end-to-end.
+- Ampliar las pruebas de integración y añadir pruebas end-to-end.
 - Definir y documentar campos persistentes de caso de estudio mediante una migración, si se desea administrarlos desde la base de datos.
 - Restringir CORS del backend a los dominios autorizados en producción.
 - Añadir captura actualizada del nuevo inicio.
 - Generar entradas dinámicas de proyectos y artículos en el sitemap cuando exista un proceso de build conectado a la API.
-- Documentar proveedor y procedimiento exactos de despliegue del backend y la base de datos.
+- Documentar el proveedor y el procedimiento exacto de respaldo de la base de datos.

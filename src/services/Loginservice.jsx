@@ -8,4 +8,14 @@ export async function iniciarSesion(payload) {
   return data;
 }
 
-export default { iniciarSesion };
+export async function solicitarRecuperacion(email) {
+  const { data } = await api.post("api/auth/recuperar-contrasena", { email });
+  return data;
+}
+
+export async function restablecerContrasena(token, password) {
+  const { data } = await api.post("api/auth/restablecer-contrasena", { token, password });
+  return data;
+}
+
+export default { iniciarSesion, solicitarRecuperacion, restablecerContrasena };

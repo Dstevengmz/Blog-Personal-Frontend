@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Container,
   Row,
@@ -81,7 +81,7 @@ function Login() {
         >
           <Card className="shadow-lg border-0 rounded-4">
             <Card.Body className="p-5">
-              <h2 className="text-center mb-4 fw-bold">🔐 Iniciar Sesión</h2>
+              <h1 className="h2 text-center mb-4 fw-bold">Iniciar sesión</h1>
               <p className="text-center text-muted mb-4">
                 Bienvenido de nuevo, ingresa tus credenciales
               </p>
@@ -149,17 +149,17 @@ function Login() {
                 </div>
 
                 <div className="text-center">
-                  <a href="/forgot-password" className="text-decoration-none">
+                  <Link to="/recuperar-contrasena" className="text-decoration-none">
                     ¿Olvidaste tu contraseña?
-                  </a>
+                  </Link>
                   <br />
                   <span className="text-muted">¿No tienes cuenta?</span>{" "}
-                  <a
-                    href="/registrar"
+                  <Link
+                    to="/registrar"
                     className="fw-semibold text-primary text-decoration-none"
                   >
                     Regístrate
-                  </a>
+                  </Link>
                 </div>
               </Form>
             </Card.Body>

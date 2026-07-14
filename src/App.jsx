@@ -11,6 +11,8 @@ const Articulos = lazy(() => import("./pages/Articulos"));
 const ArticuloDetalle = lazy(() => import("./pages/ArticuloDetalle"));
 const Contacto = lazy(() => import("./pages/Contacto"));
 const Login = lazy(() => import("./pages/Login"));
+const RecuperarContrasena = lazy(() => import("./pages/RecuperarContrasena"));
+const RestablecerContrasena = lazy(() => import("./pages/RestablecerContrasena"));
 const Registrar = lazy(() => import("./pages/Registrar"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Dashboard = lazy(() => import("./pages/admin/Dashboard"));
@@ -40,6 +42,8 @@ function App() {
             <Route path="/articulos" element={<Articulos />} />
             <Route path="/articulos/:id" element={<ArticuloDetalle />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/recuperar-contrasena" element={<RecuperarContrasena />} />
+            <Route path="/restablecer-contrasena/:token" element={<RestablecerContrasena />} />
             <Route path="/registrar" element={<Registrar />} />
             <Route path="/contacto" element={<Contacto />} />
             <Route path="/admin" element={<ProtectedRoute roles={["admin"]}><Dashboard /></ProtectedRoute>} />

@@ -18,6 +18,8 @@ function routeTitle(pathname) {
   if (pathname.startsWith("/articulos/")) return "Detalle del artículo | Darwin Steven Gómez";
   if (pathname === "/contacto") return "Contacto | Darwin Steven Gómez";
   if (pathname === "/login") return "Iniciar sesión | BlogDarwin";
+  if (pathname === "/recuperar-contrasena") return "Recuperar contraseña | BlogDarwin";
+  if (pathname.startsWith("/restablecer-contrasena/")) return "Restablecer contraseña | BlogDarwin";
   if (pathname === "/registrar") return "Crear cuenta | BlogDarwin";
   if (pathname.startsWith("/admin")) return "Administración | BlogDarwin";
   return "Página no encontrada | BlogDarwin";
