@@ -205,8 +205,8 @@ function ProyectoDetalle() {
                     <p className="text-secondary pre-wrap">{item.descripcion || "Este proyecto aún no tiene una descripción publicada."}</p>
                     {(github || demo) && (
                       <div className="mt-auto d-flex flex-wrap gap-2 pt-3">
-                        {github && <Button as="a" href={github} target="_blank" rel="noopener noreferrer" variant="dark">Ver repositorio</Button>}
-                        {demo && <Button as="a" href={demo} target="_blank" rel="noopener noreferrer" variant="primary">Ver demo</Button>}
+                        {github && <Button as="a" href={github} target="_blank" rel="noopener noreferrer" variant="dark">Ver código</Button>}
+                        {demo && <Button as="a" href={demo} target="_blank" rel="noopener noreferrer" variant="primary">Ver aplicación</Button>}
                       </div>
                     )}
                   </Card.Body>

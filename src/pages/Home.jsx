@@ -1,11 +1,14 @@
 import { createElement, useCallback, useEffect, useState } from "react";
 import { Alert, Badge, Button, Card, Col, Container, Row } from "react-bootstrap";
 import {
+  Briefcase,
   Bug,
   Cloud,
   CodeSlash,
   Database,
   FileText,
+  Github,
+  Linkedin,
   Phone,
   Server,
 } from "react-bootstrap-icons";
@@ -19,11 +22,31 @@ import profile from "../profile.config";
 import { listarProyectos } from "../services/ProyectosService";
 
 const skillGroups = [
-  { title: "Frontend", skills: ["React", "JavaScript", "Vite", "Bootstrap", "Tailwind CSS"] },
-  { title: "Backend", skills: ["Node.js", "Express", "Python", "Flask", "Django"] },
-  { title: "Bases de datos", skills: ["MySQL", "PostgreSQL", "MongoDB"] },
+  { title: "Frontend", skills: ["JavaScript", "TypeScript", "React", "Vite", "HTML5", "CSS3", "Bootstrap", "Tailwind CSS"] },
+  { title: "Backend", skills: ["Node.js", "Express", "Python", "Django", "Flask", "APIs REST", "JWT", "Socket.IO"] },
+  { title: "Bases de datos", skills: ["MySQL", "PostgreSQL", "MongoDB", "Sequelize"] },
   { title: "Desarrollo móvil", skills: ["Flutter", "Dart"] },
-  { title: "Herramientas y prácticas", skills: ["Git", "GitHub", "Docker", "Postman", "Sequelize", "JWT", "APIs REST"] },
+  { title: "Herramientas", skills: ["Git", "GitHub", "Docker", "Postman", "Cloudinary"] },
+  { title: "Conocimientos complementarios", skills: ["Google Cloud Platform", "BigQuery", "Airflow", "MQTT", "Arduino", "IoT", "LangChain", "Automatización", "Análisis de datos"] },
+];
+
+const experiences = [
+  {
+    role: "Analista y Desarrollador de Software",
+    company: "EMAS Veolia",
+    period: "Enero de 2026 – Julio de 2026",
+    type: "Contrato de aprendizaje",
+    description:
+      "Participé en el desarrollo de soluciones de automatización e integración de información utilizando Python, SQL, Docker y Google Cloud Platform. Implementé procesos ETL en Cloud Run y Cloud Composer/Airflow, extrayendo información desde servidores FTP, APIs y sitios web mediante Playwright. Construí herramientas internas para reducir tareas manuales, optimicé consultas SQL en BigQuery y desarrollé tableros para el seguimiento de indicadores operativos.",
+  },
+  {
+    role: "Desarrollador de Software — Práctica profesional",
+    company: "SENA — Centro de Teleinformática y Producción Industrial",
+    period: "Septiembre de 2024 – Marzo de 2025",
+    type: "Práctica profesional",
+    description:
+      "Participé en el desarrollo de un sistema IoT para monitorear en tiempo real variables relacionadas con la calidad del agua. Integré sensores Arduino, comunicación mediante MQTT, almacenamiento en MongoDB y una aplicación web con React, Node.js y Express. También implementé visualización en tiempo real con Socket.IO y Grafana, alertas automáticas, pruebas y documentación técnica.",
+  },
 ];
 
 const capabilities = [
@@ -97,18 +120,22 @@ function Home() {
                 </Badge>
                 <p className="hero-eyebrow mb-2">Hola, soy {profile.displayName}</p>
                 <h1 id="hero-title" className="hero-title mb-3">
-                  Desarrollador de Software Full Stack
+                  Desarrollador Full Stack Junior
                 </h1>
                 <p className="hero-description mb-4">
-                  Desarrollo aplicaciones web y móviles con React, Node.js, Python, Flutter y bases de datos SQL. Transformo necesidades reales en soluciones funcionales, organizadas y listas para ser utilizadas.
+                  Construyo aplicaciones web, móviles y APIs REST con JavaScript, React, Node.js y Python. Transformo necesidades reales en soluciones funcionales, organizadas y preparadas para crecer.
                 </p>
                 <div className="d-flex flex-wrap gap-3 hero-actions">
                   <Button as={Link} to="/proyectos" variant="primary" size="lg">Ver proyectos</Button>
-                  <Button as={Link} to="/contacto" variant="outline-primary" size="lg">Contactarme</Button>
+                  <Button as={Link} to="/contacto" variant="outline-primary" size="lg">Contactar</Button>
                 </div>
                 <div className="hero-social-links" aria-label="Perfiles profesionales">
-                  <a href={profile.github} target="_blank" rel="noopener noreferrer">GitHub<span className="visually-hidden"> (abre en una pestaña nueva)</span></a>
-                  <a href={profile.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn<span className="visually-hidden"> (abre en una pestaña nueva)</span></a>
+                  <a href={profile.github} target="_blank" rel="noopener noreferrer">
+                    <Github size={18} aria-hidden="true" /> GitHub<span className="visually-hidden"> (abre en una pestaña nueva)</span>
+                  </a>
+                  <a href={profile.linkedin} target="_blank" rel="noopener noreferrer">
+                    <Linkedin size={18} aria-hidden="true" /> LinkedIn<span className="visually-hidden"> (abre en una pestaña nueva)</span>
+                  </a>
                 </div>
               </RevealOnScroll>
             </Col>
@@ -142,14 +169,17 @@ function Home() {
             <Col lg={7}>
               <RevealOnScroll delay={0.08}>
                 <p className="about-lead">
-                  Soy Darwin Steven Gómez, Ingeniero en Informática y Desarrollador de Software. Construyo aplicaciones web y móviles, APIs REST y sistemas empresariales utilizando React, Node.js, Python, Flutter y bases de datos SQL.
+                  Soy Darwin Steven Gómez, Ingeniero en Informática y Tecnólogo en Análisis y Desarrollo de Software, con aproximadamente un año de experiencia práctica en construcción de soluciones tecnológicas.
                 </p>
                 <p className="text-secondary">
-                  Puedo participar en frontend, backend, modelado de datos, pruebas, documentación y preparación para despliegue. Me enfoco en entender el problema, organizar la solución por módulos y entregar funcionalidades mantenibles y claras.
+                  Me enfoco en el desarrollo full stack con JavaScript, React, Node.js, Express, Python y bases de datos SQL y NoSQL. He participado en el desarrollo de aplicaciones web y móviles, APIs REST, autenticación y gestión de roles, sistemas en tiempo real, automatización de procesos y servicios desplegados en la nube.
+                </p>
+                <p className="text-secondary">
+                  Puedo contribuir en frontend, backend, modelado de datos, pruebas, documentación técnica y preparación para despliegue. Me caracterizo por comprender las necesidades del proyecto, organizar las soluciones por módulos y mantener una actitud constante de aprendizaje.
                 </p>
                 <div className="complementary-note">
                   <FileText size={20} aria-hidden="true" />
-                  <p className="mb-0">Conocimientos complementarios en análisis de datos, automatización e integración de herramientas de inteligencia artificial.</p>
+                  <p className="mb-0">Actualmente busco oportunidades como Desarrollador de Software Junior, Full Stack Junior o Backend Junior, en Cali o en modalidad híbrida o remota.</p>
                 </div>
               </RevealOnScroll>
             </Col>
@@ -157,7 +187,44 @@ function Home() {
         </Container>
       </section>
 
-      <section className="section-soft" aria-labelledby="capabilities-title">
+      <section id="experiencia" className="section-soft anchor-section" aria-labelledby="experience-title">
+        <Container>
+          <RevealOnScroll>
+            <p className="section-kicker">Trayectoria</p>
+            <h2 id="experience-title" className="section-title mb-2">Experiencia</h2>
+            <p className="section-copy mb-5">Espacios donde he aplicado el desarrollo de software en proyectos reales de formación y práctica.</p>
+          </RevealOnScroll>
+          <ol className="experience-timeline">
+            {experiences.map((experience, index) => (
+              <li key={experience.company} className="experience-item">
+                <RevealOnScroll delay={Math.min(index * 0.08, 0.24)}>
+                  <div className="experience-card card-pro">
+                    <span className="experience-icon" aria-hidden="true">
+                      {createElement(Briefcase, { size: 20 })}
+                    </span>
+                    <div className="experience-body">
+                      <div className="experience-head">
+                        <h3 className="experience-role">{experience.role}</h3>
+                        {experience.type && (
+                          <Badge bg="light" text="dark" className="experience-type">{experience.type}</Badge>
+                        )}
+                      </div>
+                      <p className="experience-meta">
+                        <span className="experience-company">{experience.company}</span>
+                        <span className="experience-dot" aria-hidden="true">·</span>
+                        <span className="experience-period">{experience.period}</span>
+                      </p>
+                      <p className="experience-description">{experience.description}</p>
+                    </div>
+                  </div>
+                </RevealOnScroll>
+              </li>
+            ))}
+          </ol>
+        </Container>
+      </section>
+
+      <section className="section-white" aria-labelledby="capabilities-title">
         <Container>
           <RevealOnScroll>
             <p className="section-kicker">Lo que puedo aportar</p>
@@ -182,7 +249,7 @@ function Home() {
         </Container>
       </section>
 
-      <section id="habilidades" className="section-white anchor-section" aria-labelledby="skills-title">
+      <section id="habilidades" className="section-soft anchor-section" aria-labelledby="skills-title">
         <Container>
           <RevealOnScroll>
             <p className="section-kicker">Tecnologías</p>
@@ -204,7 +271,7 @@ function Home() {
         </Container>
       </section>
 
-      <section className="section-soft" aria-labelledby="featured-projects-title">
+      <section className="section-white" aria-labelledby="featured-projects-title">
         <Container>
           <RevealOnScroll>
             <div className="section-heading-row">
@@ -249,7 +316,7 @@ function Home() {
           <div className="contact-cta__inner">
             <div>
               <h2 id="contact-cta-title">¿Buscas un desarrollador para tu equipo?</h2>
-              <p>Conversemos sobre la oportunidad, el producto o el problema técnico que necesitas resolver.</p>
+              <p>Estoy disponible para oportunidades como Desarrollador de Software Junior, Full Stack Junior o Backend Junior. Conversemos sobre la vacante, el producto o el reto técnico de tu equipo.</p>
             </div>
             <Button as={Link} to="/contacto" variant="light" size="lg">Contactarme</Button>
           </div>

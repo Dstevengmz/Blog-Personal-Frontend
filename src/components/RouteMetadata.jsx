@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import profile from "../profile.config";
 
 const defaultDescription =
-  "Portafolio de Darwin Steven Gómez, desarrollador de software Full Stack especializado en React, Node.js, Python, Flutter, APIs REST y bases de datos.";
+  "Portafolio de Darwin Steven Gómez, desarrollador full stack junior con experiencia en React, Node.js, Python, APIs REST y bases de datos.";
 
 function setMeta(selector, attribute, value) {
   const element = document.head.querySelector(selector);
@@ -11,7 +11,7 @@ function setMeta(selector, attribute, value) {
 }
 
 function routeTitle(pathname) {
-  if (pathname === "/") return "Darwin Steven Gómez | Desarrollador de Software Full Stack";
+  if (pathname === "/") return "Darwin Steven Gómez | Desarrollador Full Stack Junior";
   if (pathname === "/proyectos") return "Proyectos | Darwin Steven Gómez";
   if (pathname.startsWith("/proyectos/")) return "Detalle del proyecto | Darwin Steven Gómez";
   if (pathname === "/articulos") return "Artículos | Darwin Steven Gómez";

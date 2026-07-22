@@ -8,13 +8,16 @@ export function normalizeText(value = "") {
 export function sortProjects(projects = []) {
   const rank = (project) => {
     const title = normalizeText(project?.titulo);
+    const text = `${title} ${normalizeText(project?.descripcion)}`;
+    const isIoT = /\b(iot|acueducto|calidad del agua|mqtt|arduino|domot|sensor)\b/.test(text);
     if (title.includes("causario")) return 0;
-    if (title.includes("clinestetica") && (title.includes("movil") || title.includes("flutter"))) return 2;
+    if (title.includes("clinestetica") && (title.includes("movil") || title.includes("flutter"))) return 3;
     if (title.includes("clinestetica")) return 1;
-    if (title.includes("guia") || title.includes("instructor") || title.includes("sena")) return 3;
-    if (title.includes("domot") || title.includes("arduino")) return 4;
-    if (title.includes("crud") && (title.includes("flask") || title.includes("mongo"))) return 5;
-    return 6;
+    if (isIoT) return 2;
+    if (title.includes("jeidar") || title.includes("tienda")) return 4;
+    if (title.includes("guia") || title.includes("instructor") || title.includes("sena")) return 5;
+    if (title.includes("crud") && (title.includes("flask") || title.includes("mongo"))) return 6;
+    return 5;
   };
 
   return [...projects].sort((a, b) => {

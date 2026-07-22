@@ -79,7 +79,7 @@ function Contacto() {
             <p className="section-kicker">Contacto</p>
             <h1 className="section-title mb-2">Conversemos sobre una oportunidad</h1>
             <p className="section-copy mb-0">
-              Si buscas un desarrollador de software o quieres hablar de un proyecto, puedes escribirme mediante este formulario.
+              Estoy disponible para oportunidades como Desarrollador de Software Junior, Full Stack Junior o Backend Junior. Conversemos sobre la vacante, el producto o el reto técnico de tu equipo.
             </p>
           </RevealOnScroll>
         </Container>

@@ -1,16 +1,16 @@
 const profile = {
   name: "Darwin Steven Gómez",
   displayName: "Darwin Steven Gómez",
-  role: "Desarrollador de Software Full Stack",
+  role: "Desarrollador Full Stack Junior",
   education: "Ingeniero en Informática",
   location: "Cali/Valle del Cauca, Colombia",
-  bio: "Construyo aplicaciones web y móviles, APIs REST y sistemas empresariales con React, Node.js, Python, Flutter y bases de datos SQL. Me enfoco en crear soluciones mantenibles, seguras y orientadas a necesidades reales.",
+  bio: "Construyo aplicaciones web, móviles y APIs REST con JavaScript, React, Node.js y Python. Transformo necesidades reales en soluciones funcionales, organizadas y preparadas para crecer.",
   avatarUrl: "https://res.cloudinary.com/dmj1zbrmp/image/upload/v1777761220/darwinrecortado_vcg4jl.png",
-  email: "speakdwin@gmail.com",
+  email: "darwinstevengomez@gmail.com",
   website: "https://blogdarwin.vercel.app/",
   github: "https://github.com/dstevengmz",
   linkedin: "https://www.linkedin.com/in/dstevengmz",
-  skills: ["JavaScript", "React", "Vite", "Bootstrap", "Tailwind CSS", "Node.js", "Express", "Python", "Flask", "Django", "MySQL", "PostgreSQL", "MongoDB", "BigQuery", "Flutter", "Dart", "Git", "GitHub", "Docker", "Postman", "Sequelize", "JWT", "APIs REST"],
+  skills: ["JavaScript", "TypeScript", "React", "Vite", "HTML5", "CSS3", "Bootstrap", "Tailwind CSS", "Node.js", "Express", "Python", "Django", "Flask", "APIs REST", "JWT", "Socket.IO", "MySQL", "PostgreSQL", "MongoDB", "Sequelize", "Flutter", "Dart", "Git", "GitHub", "Docker", "Postman", "Cloudinary"],
 };
 
 export default profile;

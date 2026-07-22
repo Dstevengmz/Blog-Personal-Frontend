@@ -4,7 +4,7 @@ import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import profile from "../profile.config";
 import { clearAuthSession, getStoredToken, getStoredUser } from "../lib/authStorage";
 
-const homeSections = ["inicio", "sobre-mi", "habilidades"];
+const homeSections = ["inicio", "sobre-mi", "experiencia", "habilidades"];
 
 function AppNavbar() {
   const location = useLocation();
@@ -65,6 +65,9 @@ function AppNavbar() {
             </Nav.Link>
             <Nav.Link as={Link} to="/#sobre-mi" onClick={closeMenu} className={homeLinkClass("sobre-mi")}>
               Sobre mí
+            </Nav.Link>
+            <Nav.Link as={Link} to="/#experiencia" onClick={closeMenu} className={homeLinkClass("experiencia")}>
+              Experiencia
             </Nav.Link>
             <Nav.Link as={NavLink} to="/proyectos" onClick={closeMenu}>
               Proyectos

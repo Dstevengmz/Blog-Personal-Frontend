@@ -52,13 +52,13 @@ function ProjectCard({ project, priority = false }) {
           </Button>
           {github && (
             <Button as="a" href={github} target="_blank" rel="noopener noreferrer" variant="outline-dark" size="sm">
-              Repositorio
+              Ver código
               <span className="visually-hidden"> de {project.titulo} (abre en una pestaña nueva)</span>
             </Button>
           )}
           {demo && (
             <Button as="a" href={demo} target="_blank" rel="noopener noreferrer" variant="outline-primary" size="sm">
-              Demo
+              Ver aplicación
               <span className="visually-hidden"> de {project.titulo} (abre en una pestaña nueva)</span>
             </Button>
           )}
